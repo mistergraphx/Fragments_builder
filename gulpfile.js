@@ -411,9 +411,7 @@ gulp.task('prefix', ['autoprefixer'], function () {
 
 // ## Default Task
 gulp.task('default', ['lib-sass','bundle-assets'], function () {
-        //gulp.watch(project.SrcPath+project.cssPath+'**/*.css', ['autoprefixer']);
     gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer']);
-    //gulp.watch(project.SrcPath+'assets/fonts/**/fonts/*', ['fonts']);
     gulp.watch(project.SrcPath+'**/*.html', ['bundle-assets']);
     gulp.watch(project.SrcPath+project.cssPath+'*.css', ['bundle-assets']);
     gulp.watch(project.SrcPath+project.JsPath+'*.js', ['bundle-assets']);
