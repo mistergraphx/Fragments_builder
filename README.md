@@ -23,9 +23,22 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
 ## Utilisation
 
+Main Tasks :
+
 *   `gulp --project=PROJECT_NAME`  - Tache par defaut : lib-sass, combineMQ, auto-prefixer, bundle assets
 *   `gulp prototype --project=PROJECT_NAME` - Live reload, swig, libsass
+
+Sub Tasks :
+
+*   `gulp bundle-assets --project=PROJECT_NAME` -
+*   `gulp autoprefixer --project=PROJECT_NAME` -
+*   `gulp combineMQ --project=PROJECT_NAME` - 
+*   `gulp swig --project=PROJECT_NAME` - 
+*   `gulp fontello --project=PROJECT_NAME` -
 *   `gulp image-optim --project=PROJECT_NAME` - Run optimize image tasks
+*   `gulp image-resize --project=PROJECT_NAME` - 
+*   `gulp image-responsives --project=PROJECT_NAME` -
+
 
 ### Installation
 
@@ -67,8 +80,8 @@ Exemple :
         *	fonts/
         *	images/
         *	js/
-    * 	datas/ *Dossier des fichiers `json` des datas des templates swig*
-    * 	templates/ *Dossier des templates swig*
+    * 	datas/ : *Dossier des fichiers `json` des datas des templates swig*
+    * 	templates/ : *Dossier des templates swig*
         *	_layouts/
         *	_partials/
         *	index.twig	
