@@ -1,4 +1,4 @@
-# Kitchen
+# Fragments Builder
 
 Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
@@ -6,7 +6,7 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
 - Pré-processeur css Sass et libsass
 - Swig/twig templates
-- Creation de bundles html/js/css minimisé et optimisés pour la production
+- Creation de bundles html/js/css minimisé et optimisés
 - Traitement optimisation des images, creation des icons, favicons, mobile
 
 ## Structure 

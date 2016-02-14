@@ -1,0 +1,31 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "gulp - add - project", 
+  "value": [
+    "var project = {", 
+    "    'SrcPath' : '_KITCHEN/[[%ask1:Project Folder:my_project]]/',", 
+    "    'BuildPath': '_KITCHEN/[[%ask1]]/_BUILD/',", 
+    "    'DevPath': '../spip_dev/plugins/jangoo_plugins/_squelettes/atelierhersan/assets/',", 
+    "    'JsPath':'assets/js',", 
+    "    'ImagePath':'assets/images',", 
+    "    'sassPath':'assets/_sass',", 
+    "    'sassOptions':{", 
+    "        'outputStyle':'nested' // compressed, nested", 
+    "    },", 
+    "    'cssPath':'assets/css',", 
+    "    'templatesPath':'templates',", 
+    "    'includePaths':[", 
+    "        '_FRAMEWORKS/Bourbon-family/',", 
+    "        '_EXTENSIONS/fragments/sass/',", 
+    "        '_EXTENSIONS/sassyspip/sass/',", 
+    "    ]", 
+    "}!@#_currentPos!@#_anchor"
+  ], 
+  "set_selection": "false", 
+  "version": "1.0.12", 
+  "indent_relative": "false", 
+  "icon": "chrome://komodo/skin/images/snippet.png", 
+  "type": "snippet", 
+  "treat_as_ejs": "false", 
+  "auto_abbreviation": "false"
+}
