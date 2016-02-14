@@ -1,14 +1,22 @@
 .sass-cache/**
 
-node_modules/**
+/node_modules/**
 
-_EXTENSIONS/**
-_FRAMEWORKS/**
-_JS_LIBS/**
-_KITCHEN/**
-!_KITCHEN/_app-boilerplate
-_MATERIALS/**
+/_EXTENSIONS/**
+!/_EXTENSIONS/readme.md
 
+/_FRAMEWORKS/**
+!/_FRAMEWORKS/readme.md
+
+/_JS_LIBS/**
+!/_JS_LIBS/readme.md
+
+/_KITCHEN/**
+!_KITCHEN/readme.md
+!/_KITCHEN/_app-boilerplate
+
+/_MATERIALS/**
+!/_MATERIALS/readme.md
 
 *.scssc
 .DS_Store
