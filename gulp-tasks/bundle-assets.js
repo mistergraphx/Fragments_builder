@@ -1,8 +1,60 @@
 /** Bundle Assets
 
 Construit un bundle des style et js
-a partir des informations fournies dans le fichier `bundle.config.js`
+a partir des informations fournies dans le fichier `app.js`
 situé a la racine du projet.
+
+Basic budles config :
+
+```javascript
+
+bundle: {
+    'assets/css/main':{
+        styles:[
+            './_KITCHEN/__APP_NAME__/_src/assets/css/main.css'
+        ],
+        options: {
+            useMin: false,
+            uglify: false,
+            rev:false,
+            maps:false
+        }
+    },
+    'assets/js/plugins': {
+        scripts: [
+              './_JS_LIBS/picturefill/src/picturefill.js',
+        ],
+        options: {
+          useMin: false,
+          uglify: false,
+          rev:false,
+          maps:false        
+        }
+    },
+    'assets/js/main': {
+      scripts: [
+        './_KITCHEN/__APP_NAME__/_src/assets/js/main.js',
+      ],
+      options: {
+        useMin: false,
+        uglify: false,
+        rev:false,
+        maps:false
+      }
+    }
+},
+copy: [
+    {
+        src: [
+        //
+        ],
+        base: './_KITCHEN/__APP_NAME__/_src/',
+        watch:true
+    }
+]
+
+
+```
 
 Produit un fichier datas/bundle.result.json, exploitable ensuite par swig
 
@@ -14,10 +66,10 @@ Produit un fichier datas/bundle.result.json, exploitable ensuite par swig
 */
 module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onError) {
     return function(){
-        gulp.src(project.BasePath+'bundle.config.js')
+        gulp.src(project.BasePath+'app.js') // Load Bundle.config file [bundle,copy]
             .pipe(plugins.bundleAssets())
             .pipe(plugins.bundleAssets.results(project.SrcPath+'datas/')) // arg is destination of bundle.result.json
-            .pipe(plugins.cached('Bundle-assets'))
+            .pipe(plugins.cached('bundle-assets'))
             .pipe(gulp.dest(project.bundleConfig.dest))
             .pipe(browserSync.stream())
             .pipe(plugins.notify('Bundle is ready !'));
