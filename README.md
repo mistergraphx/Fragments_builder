@@ -25,7 +25,7 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
 Main Tasks :
 
-*   `gulp --project=PROJECT_NAME`  - Tache par defaut : lib-sass, combineMQ, auto-prefixer, bundle assets
+*   `gulp --project=PROJECT_NAME`  - Tache par defaut : lib-sass, auto-prefixer, bundle assets
 *   `gulp prototype --project=PROJECT_NAME` - Live reload, swig, libsass
 
 Sub Tasks :
@@ -42,8 +42,10 @@ Sub Tasks :
 
 ### Installation
 
-Pour installer node et le mettre a jour facilement utiliser de préférence nvm (node version manager), via Brew
+Pour installer node et le mettre a jour facilement utiliser
+de préférence nvm (node version manager), via Brew.
 
+    sudo npm install
 
 ### Update
 
@@ -58,8 +60,8 @@ sudo npm update gulp-sass
 Pour forcer une update d'une version supérieure : exemple de 1.0x vers 2.0x
 
 ```
-sudo npm remove module_name
-sudo npm install module_name
+sudo npm uninstall <module_name>
+sudo npm install <module_name>
 ```
 
 ## Projets

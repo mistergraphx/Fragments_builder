@@ -14,7 +14,6 @@ avec LibSass
 @see            https://www.npmjs.com/package/gulp-sourcemaps
 
 */
-
 module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onError) {
     return function (){
         gulp.src(project.SrcPath + project.sassPath+'**/*.scss')
@@ -30,6 +29,7 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
                 includePaths : project.includePaths
             }))
             // Ici on écrit la sourcemap par défaut dans le fichier
+            // ceci permet de poivoir avoir un chemin d'accès correct sous chrome
             // comme expliqué [ici](http://www.sitepoint.com/simple-gulpy-workflow-sass/)
             // Si besoin on peut spécifier un chemin, et des options supplémentaires pour une sourcemap externe
             // cf : https://www.npmjs.com/package/gulp-sourcemaps
