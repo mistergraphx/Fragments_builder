@@ -13,7 +13,9 @@ https://gist.github.com/DanHerbert/9520689
 
 ### Mettre a jour Node.js :
 
-    brew upgrade node
+        brew update
+        brew upgrade node
+        npm install|update -g npm
 
 
 ## Npm :
@@ -138,6 +140,7 @@ Construire un set d'icone sur mesure et optimisé pour un projet
 
 Slush:
 http://joakim.beng.se/blog/posts/slush-replacing-yeoman-with-gulp.html
+
 Gulp-template:
 https://github.com/sindresorhus/gulp-template
 
@@ -170,17 +173,27 @@ Gulp-icon permet d'automatiser, la génération des icones d'un site au format s
 TODO :
 ------
 
-@todo https://www.npmjs.org/package/gulp-iconfont
-@todo scsslint : https://www.npmjs.com/package/gulp-scss-lint
-@todo scssLint : https://github.com/sasstools/sass-lint
-@todo stylestats : Générer des statistiques sur les css générées : https://www.npmjs.com/package/stylestats Gulp Module : https://github.com/1000ch/gulp-stylestats
+@todo   https://www.npmjs.org/package/gulp-iconfont
+@todo   scsslint : https://www.npmjs.com/package/gulp-scss-lint
+@todo   scssLint : https://github.com/sasstools/sass-lint
+
+
+@todo   stylestats : Générer des statistiques sur les css générées :
+        Installle énormément de modules, plutot utiliser un outil en ligne
+        https://www.npmjs.com/package/stylestats Gulp Module : https://github.com/1000ch/gulp-stylestats
                         
-@todo SassPort : Share asset and Javascript in sass : https://github.com/davidkpiano/sassport/
+@todo   SassPort :
+        Share asset and Javascript in sass : https://github.com/davidkpiano/sassport/
 
-@ todo Json/Sass : https://www.npmjs.com/package/json-sass
+@todo   Json/Sass :
+        https://www.npmjs.com/package/json-sass
 
-@todo - Optimisation des css - <https://www.npmjs.com/package/cssshrink>
-<https://www.npmjs.com/package/gulp-cssshrink>
+@todo   HtmlMin
+        https://github.com/kangax/html-minifier
+
+@todo - Optimisation des css -
+        <https://www.npmjs.com/package/cssshrink>
+        <https://www.npmjs.com/package/gulp-cssshrink>
 
 */
 // ------------------------------------------------*/
@@ -321,6 +334,7 @@ gulp.task('image-responsives', getTask('img_responsives')); // Generate images v
 gulp.task('swig', getTask('swig'));
 
 
+// Utils
 
 gulp.task('html2build', function() {
     gulp.src(SrcPath+'**/*.html')
@@ -391,7 +405,7 @@ gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','images2build'], fun
         server: project.BuildPath
     });
     
-    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer', 'combineMQ','assets2build']);
+    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','assets2build']);
     gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
     gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
     gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
