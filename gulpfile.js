@@ -359,7 +359,7 @@ gulp.task('images2build', function() {
         .pipe(gulp.dest(project.BuildPath + project.ImagePath))
         .pipe(browserSync.stream())
         .pipe($.notify({
-            title: "Images forlder Updated",
+            title: "Images folder Updated",
             message: "All images files are updated in Build Folder"
         }));
 });
@@ -424,10 +424,10 @@ gulp.task('prefix', ['autoprefixer'], function () {
 });
 
 // ## Default Task
-gulp.task('default', ['lib-sass','bundle-assets'], function () {
-    gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer']);
-    gulp.watch(project.SrcPath+'**/*.html', ['bundle-assets']);
-    gulp.watch(project.SrcPath+project.cssPath+'*.css', ['bundle-assets']);
-    gulp.watch(project.SrcPath+project.JsPath+'*.js', ['bundle-assets']);
+gulp.task('default', ['lib-sass','bundle-assets','images2build'], function () {
+    gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','assets2build']);
+    //gulp.watch(project.SrcPath+'**/*.html', ['bundle-assets']);
+    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+    gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
 });
 
