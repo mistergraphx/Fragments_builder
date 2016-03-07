@@ -1,6 +1,6 @@
 /** Bundle Assets
 
-Construit un bundle des style et js
+Construi un bundle des style et js
 a partir des informations fournies dans le fichier `app.js`
 situé a la racine du projet.
 
@@ -63,6 +63,8 @@ Produit un fichier datas/bundle.result.json, exploitable ensuite par swig
 @param  plugins - plugins chargés par gulp-load-plugin
 @param  project - object infos du projet en cours
 @see    https://www.npmjs.com/package/gulp-bundle-assets
+@see    https://github.com/dowjones/gulp-bundle-assets/blob/master/examples/full/bundle.config.js
+
 */
 module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onError) {
     return function(){

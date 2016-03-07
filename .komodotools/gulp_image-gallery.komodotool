@@ -1,0 +1,18 @@
+{
+  "insertOutput": 0, 
+  "parseRegex": "", 
+  "doNotOpenOutputWindow": 0, 
+  "keyboard_shortcut": "", 
+  "name": "gulp image-gallery", 
+  "operateOnSelection": 0, 
+  "value": [
+    "gulp image-gallery --project=%(ask:Project:project_name)"
+  ], 
+  "cwd": "%p%i", 
+  "version": "1.0.12", 
+  "env": "", 
+  "showParsedOutputList": 0, 
+  "type": "command", 
+  "parseOutput": 0, 
+  "runIn": "new-console"
+}

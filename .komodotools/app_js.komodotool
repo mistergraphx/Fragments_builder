@@ -1,6 +1,6 @@
 {
   "keyboard_shortcut": "", 
-  "name": "gulp - add - project", 
+  "name": "app.js", 
   "value": [
     "var project = {", 
     "    'SrcPath' : '_KITCHEN/[[%ask1:Project Folder:my_project]]/',", 
@@ -23,9 +23,9 @@
   ], 
   "set_selection": "false", 
   "version": "1.0.12", 
-  "indent_relative": "false", 
-  "icon": "chrome://komodo/skin/images/snippet.png", 
-  "type": "snippet", 
+  "auto_abbreviation": "false", 
   "treat_as_ejs": "false", 
-  "auto_abbreviation": "false"
+  "type": "snippet", 
+  "indent_relative": "false", 
+  "icon": "chrome://komodo/skin/images/snippet.png"
 }

@@ -1,6 +1,9 @@
 /** # __APP_NAME__
 
 */
+
+var prodLikeEnvs = ['production', 'staging'];
+
 module.exports = {
     BasePath: '_KITCHEN/__APP_NAME__/',
     SrcPath: '_KITCHEN/__APP_NAME__/_src/',
@@ -26,29 +29,40 @@ module.exports = {
         '_FRAMEWORKS/include-media/dist/',
         '_EXTENSIONS/fragments/fragments_2.0/components/scss/',
     ],
+    // Gallery generator
+    gallery:{
+        folder: 'gallery/', // a folder to inspect in project.image_path
+        max_image_size: 800,
+        format: 'jpeg',
+        thumbnails:{
+            width: 150,
+            height:150
+        }
+    },
     bundleConfig: {
         dest: '_KITCHEN/__APP_NAME__/_BUILD/' // Bundle destination
     },
     bundle: {
-        'assets/css/main':{
+        'assets/css/main.min':{
             styles:[
                 './_KITCHEN/__APP_NAME__/_src/assets/css/main.css'
             ],
             options: {
-                useMin: false,
+                minCss: prodLikeEnvs,
                 uglify: false,
-                rev:false,
-                maps:false
+                rev: false,
+                map:false
             }
         },
         'assets/js/plugins': {
             scripts: [
-                  './_JS_LIBS/picturefill/src/picturefill.js',
+                    //'./_JS_LIBS/jquery.ui.js',
+                  './_JS_LIBS/lightbox2/src/js/lightbox.js',
                   // Add libs
             ],
             options: {
-              useMin: false,
-              uglify: false,
+              useMin: prodLikeEnvs,
+              uglify: true,
               rev:false,
               maps:false        
             }
@@ -58,7 +72,7 @@ module.exports = {
             './_KITCHEN/__APP_NAME__/_src/assets/js/main.js',
           ],
           options: {
-            useMin: false,
+            useMin: prodLikeEnvs,
             uglify: false,
             rev:false,
             maps:false

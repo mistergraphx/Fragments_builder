@@ -33,6 +33,7 @@ run `npm update` in the same directory as your package.json file.
 [Spliting gulp file](http://macr.ae/article/splitting-gulpfile-multiple-files.html)
 
 Stories and examples :
+----------------------
 
 5 way isl used gulp to improve ou process :
 http://istrategylabs.com/2015/02/swept-up-in-the-stream-5-ways-isl-used-gulp-to-improve-our-process/
@@ -49,6 +50,9 @@ Glob.nodes:
 Improve gulp building system:
 Task depndencies and task as plugins
 <https://github.com/lordofthelake/gag>
+
+Task dependencie / task in series
+https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-tasks-in-series.md
 
 Testing tools :
 ---------------
@@ -216,6 +220,7 @@ var imageResize = require('gulp-image-resize');
 //var pngcrush  = require('imagemin-pngcrush');
 var marked = require('swig-marked');
 
+
 /** # Auto chargement des plugins
 
 
@@ -228,6 +233,8 @@ var plugins = gulpLoadPlugins({
         lazy:true
     });
 var $ = plugins; //shortcut
+
+
 
 
 
@@ -329,7 +336,7 @@ gulp.task('touch-icons', getTask('img_touch-icons')); // Generate touch icons
 gulp.task('image-optim', getTask('img_image-optim')); // Optimize
 gulp.task('image-resize', getTask('img_image-resize')); // Resize image to a max Size
 gulp.task('image-responsives', getTask('img_responsives')); // Generate images variations for different brealpoints
-
+gulp.task('image-gallery', getTask('img_gallery')); // Generate thumbs
 // TEMPLATING
 gulp.task('swig', getTask('swig'));
 
@@ -399,7 +406,7 @@ gulp.task('browser-sync', function() {
  *
  * 
  */ 
-gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','images2build'], function () {
+gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','image-gallery','images2build'], function () {
     
     browserSync.init({
         server: project.BuildPath
@@ -409,6 +416,7 @@ gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','images2build'], fun
     gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
     gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
     gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+    gulp.watch(project.SrcPath+project.ImagePath+project.gallery.folder+"**/*.{jpg,jpeg,png,gif}", ['image-gallery']);
     gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
     gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
 });

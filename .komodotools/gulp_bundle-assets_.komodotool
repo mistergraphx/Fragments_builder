@@ -3,16 +3,16 @@
   "parseRegex": "", 
   "doNotOpenOutputWindow": 0, 
   "keyboard_shortcut": "", 
-  "name": "gulp_image-responsives [project]", 
+  "name": "gulp [bundle-assets]", 
   "operateOnSelection": 0, 
   "value": [
-    "gulp image-responsives --project=%(ask:Project:project_name)"
+    "gulp bundle-assets --project=%(ask:Project:project_name)"
   ], 
-  "parseOutput": 0, 
+  "cwd": "%p%i", 
   "version": "1.0.12", 
-  "env": "", 
+  "env": "NODE_ENV=[[%ask:NODE_ENV:development]]", 
   "showParsedOutputList": 0, 
   "type": "command", 
-  "cwd": "%p%i", 
+  "parseOutput": 0, 
   "runIn": "new-console"
 }

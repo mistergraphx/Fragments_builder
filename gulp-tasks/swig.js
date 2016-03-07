@@ -44,6 +44,7 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
                 }
             },
             data: {
+                config : project,
                 app : require('../'+project.SrcPath+'datas/app.json') ,
                 summary: require('../'+project.SrcPath+'datas/summary.json'),
             },
