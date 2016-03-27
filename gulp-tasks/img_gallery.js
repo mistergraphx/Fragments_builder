@@ -1,4 +1,4 @@
-/** # Thumb generator
+/** # Gallerie generator
 
 genere des tailles d'images suivant `sizes` en les optimisant et en les redimensionnant width / height
 
@@ -19,8 +19,8 @@ genere des tailles d'images suivant `sizes` en les optimisant et en les redimens
 config:
 app
     gallery
-        folder
-         max_image_size: 800
+        folder:                     // dossier source des images
+        max_image_size: 800         // taille max
         thumbnails
          - width:150
          - height: 150
@@ -60,7 +60,7 @@ module.exports = function(gulp, plugins, project){
                 resize_settings.height = s.height
             }
             
-            gulp.src(project.SrcPath + project.ImagePath + project.gallery.folder+'**/*.{jpg,jpeg,png,gif}')
+            gulp.src(project.SrcPath + project.gallery.folder+'**/*.{jpg,JPG,jpeg,png,PNG,gif}')
             // Only modify changed with gulp-changed
             .pipe(plugins.changed(dest))
             // resize them according to the width/height settings

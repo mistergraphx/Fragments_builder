@@ -169,6 +169,10 @@ Gulp-icon permet d'automatiser, la génération des icones d'un site au format s
 <https://www.npmjs.com/package/gulpicon>
 
 
+Command lines /exec :
+http://stackoverflow.com/questions/29511491/running-a-shell-command-from-gulp
+https://www.npmjs.com/package/gulp-exec
+
 ---
 
 
@@ -198,6 +202,11 @@ TODO :
 @todo - Optimisation des css -
         <https://www.npmjs.com/package/cssshrink>
         <https://www.npmjs.com/package/gulp-cssshrink>
+
+@todo - Task Build :
+        - améliorer la gestion de la copie vers BUILD pour les images :
+                - cas des images du design
+                - et images types gallerie
 
 */
 // ------------------------------------------------*/
@@ -233,10 +242,6 @@ var plugins = gulpLoadPlugins({
         lazy:true
     });
 var $ = plugins; //shortcut
-
-
-
-
 
 /**
 
@@ -332,7 +337,7 @@ gulp.task('autoprefixer', getTask('autoprefixer'));
 gulp.task('combineMQ', getTask('combineMQ'));
 
 // IMAGES TOOLS
-gulp.task('touch-icons', getTask('img_touch-icons')); // Generate touch icons 
+gulp.task('image-touch-icons', getTask('img_touch-icons')); // Generate touch icons 
 gulp.task('image-optim', getTask('img_image-optim')); // Optimize
 gulp.task('image-resize', getTask('img_image-resize')); // Resize image to a max Size
 gulp.task('image-responsives', getTask('img_responsives')); // Generate images variations for different brealpoints
@@ -406,7 +411,7 @@ gulp.task('browser-sync', function() {
  *
  * 
  */ 
-gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','image-gallery','images2build'], function () {
+gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','image-gallery','image-touch-icons','images2build'], function () {
     
     browserSync.init({
         server: project.BuildPath
@@ -416,7 +421,7 @@ gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','image-gallery','ima
     gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
     gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
     gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
-    gulp.watch(project.SrcPath+project.ImagePath+project.gallery.folder+"**/*.{jpg,jpeg,png,gif}", ['image-gallery']);
+    gulp.watch(project.SrcPath+project.gallery.folder+"**/*.{jpg,jpeg,png,gif}", ['image-gallery']);
     gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
     gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
 });
