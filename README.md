@@ -97,5 +97,8 @@ Exemple :
 
 ## CHANGELOG
 
-
-
+Sun Apr 10 19:17:39 2016
+:   *   Add html minification in swig task
+        gulp-htmlmin
+        https://www.npmjs.com/package/gulp-htmlmin
+    *   Swig dest in BuildPath

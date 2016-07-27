@@ -22,13 +22,16 @@ var AUTOPREFIXER_BROWSERS = [
   'bb >= 10'
 ];
 
-module.exports = function(gulp, plugins, project){
+module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onError){
     return function(){
         gulp.src(project.SrcPath+project.cssPath+'**/*.css')
+            .pipe(plugins.plumber({
+                errorHandler: onError
+            }))
             .pipe(plugins.autoprefixer({
                 browsers: AUTOPREFIXER_BROWSERS,
                 cascade: false
             }))
-            .pipe(gulp.dest(project.DevPath+project.cssPath));
+            .pipe(gulp.dest(project.BuildPath+project.cssPath));
     }
 };

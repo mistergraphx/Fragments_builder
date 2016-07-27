@@ -54,6 +54,9 @@ Task depndencies and task as plugins
 Task dependencie / task in series
 https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-tasks-in-series.md
 
+Advanced gulp file
+https://www.mikestreety.co.uk/blog/advanced-gulp-file
+
 Testing tools :
 ---------------
 
@@ -181,11 +184,29 @@ https://www.npmjs.com/package/gulp-exec
 TODO :
 ------
 
-@todo   https://www.npmjs.org/package/gulp-iconfont
+@todo   Gestion des icones fonts
+        https://www.npmjs.org/package/gulp-iconfont
+        http://www.carsonshold.com/2015/11/svg-icon-workflow-with-gulp-and-shopify/
+        
+        Changer les icon-fonts pour les sprites svg :
+        Tuto sur les méthodes d'intégration :
+                - https://sarasoueidan.com/blog/icon-fonts-to-svg/
+                - https://24ways.org/2014/an-overview-of-svg-sprite-creation-techniques/
+        Tour d'horizon des +/- : https://css-tricks.com/icon-fonts-vs-svg/
+        Intégration des svg sprites : https://css-tricks.com/svg-sprites-use-better-icon-fonts/
+        
+        Extraire d'une font les icons en svg, png
+        https://www.npmjs.com/package/font-blast
+        
+        
 @todo   scsslint : https://www.npmjs.com/package/gulp-scss-lint
 @todo   scssLint : https://github.com/sasstools/sass-lint
+        Stats : errors , pages speed, dev tool
+        http://devbridge.github.io/Performance/
 
-
+@todo   Command line utilities
+        https://www.npmjs.com/package/commander
+        
 @todo   stylestats : Générer des statistiques sur les css générées :
         Installle énormément de modules, plutot utiliser un outil en ligne
         https://www.npmjs.com/package/stylestats Gulp Module : https://github.com/1000ch/gulp-stylestats
@@ -196,13 +217,25 @@ TODO :
 @todo   Json/Sass :
         https://www.npmjs.com/package/json-sass
 
-@todo   HtmlMin
-        https://github.com/kangax/html-minifier
+@todo   [test] - SwigTask - Minify Html
+        
+        gulp-htmlmin
+        https://www.npmjs.com/package/gulp-htmlmin
 
 @todo - Optimisation des css -
+        https://www.npmjs.com/package/gulp-pixrem - rem fix
         <https://www.npmjs.com/package/cssshrink>
         <https://www.npmjs.com/package/gulp-cssshrink>
+        <https://www.npmjs.com/package/gulp-csscss/>
 
+@todo - Ordre d'enchainement des taches
+        !! A voir au plus vite !!
+        https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-tasks-in-series.md
+        
+        gulpif permet de n'executer la tache que quand la pipe précédente a été exécuté
+        fonctionne avec lazyPipe
+        https://github.com/robrich/gulp-if
+                
 @todo - Task Build :
         - améliorer la gestion de la copie vers BUILD pour les images :
                 - cas des images du design
@@ -341,7 +374,7 @@ gulp.task('image-touch-icons', getTask('img_touch-icons')); // Generate touch ic
 gulp.task('image-optim', getTask('img_image-optim')); // Optimize
 gulp.task('image-resize', getTask('img_image-resize')); // Resize image to a max Size
 gulp.task('image-responsives', getTask('img_responsives')); // Generate images variations for different brealpoints
-gulp.task('image-gallery', getTask('img_gallery')); // Generate thumbs
+gulp.task('image-galleries', getTask('img_galleries')); // Generate thumbs
 // TEMPLATING
 gulp.task('swig', getTask('swig'));
 
@@ -353,7 +386,7 @@ gulp.task('html2build', function() {
         .pipe($.plumber({
                 errorHandler: onError
         }))
-        .pipe($.cached('html2build'))
+        .pipe($.cached('html'))
         .pipe(gulp.dest(project.BuildPath))
         .pipe(browserSync.stream())
         .pipe($.notify({
@@ -367,7 +400,7 @@ gulp.task('images2build', function() {
         .pipe($.plumber({
                 errorHandler: onError
         }))
-        .pipe($.cached('images2build'))
+        .pipe($.cached('images'))
         .pipe(gulp.dest(project.BuildPath + project.ImagePath))
         .pipe(browserSync.stream())
         .pipe($.notify({
@@ -382,7 +415,7 @@ gulp.task('assets2build', function() {
         .pipe($.plumber({
                 errorHandler: onError
         }))
-        .pipe($.cached('assets2build'))
+        .pipe($.cached('assets'))
         .pipe(gulp.dest(project.BuildPath))
         .pipe(browserSync.stream())
         .pipe($.notify({
@@ -407,11 +440,13 @@ gulp.task('browser-sync', function() {
 // ---------------------------------------------------------------------------
 
 
-/** # Prototype
+/** # Build static site
+ *
+ * Génère un site static
  *
  * 
  */ 
-gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','image-gallery','image-touch-icons','images2build'], function () {
+gulp.task('static-site', ['lib-sass', 'swig', 'bundle-assets','image-galleries','image-responsives','image-touch-icons','images2build'], function () {
     
     browserSync.init({
         server: project.BuildPath
@@ -421,7 +456,25 @@ gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets','image-gallery','ima
     gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
     gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
     gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
-    gulp.watch(project.SrcPath+project.gallery.folder+"**/*.{jpg,jpeg,png,gif}", ['image-gallery']);
+    gulp.watch(project.SrcPath+project.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
+    gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
+    gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
+});
+
+/** # Prototype
+ *
+ * 
+ */ 
+gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets', 'images2build'], function () {
+    
+    browserSync.init({
+        server: project.BuildPath
+    });
+    
+    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','assets2build']);
+    gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
+    gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
+    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
     gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
     gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
 });
@@ -438,8 +491,8 @@ gulp.task('prefix', ['autoprefixer'], function () {
 
 // ## Default Task
 gulp.task('default', ['lib-sass','bundle-assets','images2build'], function () {
-    gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','assets2build']);
-    //gulp.watch(project.SrcPath+'**/*.html', ['bundle-assets']);
+    gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
+    gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
     gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
     gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
 });

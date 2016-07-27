@@ -21,12 +21,11 @@ https://help.github.com/articles/github-flavored-markdown/
 gulp-htmlmin
 https://www.npmjs.com/package/gulp-htmlmin
 
-/!\ Swig n'est plus maintenu, par son créateur, le fork swig-template n'as pas l'air de bouger
+Swig n'est plus maintenu, par son créateur, le fork swig-template n'as pas l'air de bouger
 
 Alternatives envisageables :
 http://mozilla.github.io/nunjucks/templating.html
 https://www.npmjs.com/package/gulp-nunjucks
-https://www.npmjs.com/package/gulp-twig
 
 On pourra aussi envisager de passer a un workflow similaire a Jekyll, comme sur expliqué ici :
 http://stackoverflow.com/questions/32810072/gulp-front-matter-markdown-through-nunjucks
@@ -36,6 +35,12 @@ http://stackoverflow.com/questions/32810072/gulp-front-matter-markdown-through-n
 module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onError, marked){
     
     return function(){
+        // https://nodejs.org/api/path.html
+        const path = require('path');
+        // https://nodejs.org/api/fs.html#fs_class_fs_stats
+        const fs = require('fs');
+        
+        var page = '';
         
         var markedConfig = marked.configure({
                 gfm: true,
@@ -47,7 +52,23 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
                 smartypants: false
         });
         
+        var getMarkdownData = function(file) {
+            
+            var markdownFile = project.SrcPath+"datas/" + path.basename(file.path,'.twig') + '.md';
+            
+            fs.stat(markdownFile, function(err, stat) {
+                if(err == null) {
+                    fs.readFile(markdownFile, 'utf8', function(err, data){
+                        if (err) throw err
+                      
+                        return data;
+                      
+                        //console.log(page);
+                    })
 
+                } 
+            });
+        };
         
         var opts = {
             load_json: true,
@@ -73,6 +94,7 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
             .pipe(plugins.plumber({
                     errorHandler: onError
             }))
+            .pipe(plugins.data(getMarkdownData))
             .pipe(plugins.swig(opts))
             .pipe(plugins.htmlmin({
                 collapseWhitespace: true

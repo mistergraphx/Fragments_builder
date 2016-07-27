@@ -1,16 +1,17 @@
 /** # Gallerie generator
 
-genere des tailles d'images suivant `sizes` en les optimisant et en les redimensionnant width / height
+genere des tailles d'images suivant `sizes` en les optimisant
+et en les redimensionnant width / height
 
 ```javascript
  var sizes = [{
     size: 'thumb',
-    width: project.gallery.thumbnails.width,
-    height: project.gallery.thumbnails.height,
+    width: project.galleries.thumbnails.width,
+    height: project.galleries.thumbnails.height,
     suffix: '-thumb'
 },{
     size: 'big',
-    width: project.gallery.max_image_size,
+    width: project.galleries.max_image_size,
     suffix: '-opt'
 }];
 
@@ -18,7 +19,7 @@ genere des tailles d'images suivant `sizes` en les optimisant et en les redimens
 
 config:
 app
-    gallery
+    galleries
         folder:                     // dossier source des images
         max_image_size: 800         // taille max
         thumbnails
@@ -32,16 +33,16 @@ app
 
 module.exports = function(gulp, plugins, project){
     return function(){
-        var dest = project.BuildPath+project.ImagePath+project.gallery.folder;
+        var dest = project.BuildPath+project.ImagePath+project.galleries.folder;
         
         var sizes = [{
                     size: 'thumb',
-                    width: project.gallery.thumbnails.width,
-                    height: project.gallery.thumbnails.height,
+                    width: project.galleries.thumbnails.width,
+                    height: project.galleries.thumbnails.height,
                     suffix: '-thumb'
                 },{
                     size: 'big',
-                    width: project.gallery.max_image_size,
+                    width: project.galleries.max_image_size,
                     suffix: '-opt'
                 }];
         
@@ -53,14 +54,14 @@ module.exports = function(gulp, plugins, project){
                 crop: false,
                 // never increase image dimensions
                 upscale : false,
-                format: project.gallery.format
+                format: project.galleries.format
             }
             // only specify the height if it exists
             if (s.hasOwnProperty("height")) {
                 resize_settings.height = s.height
             }
             
-            gulp.src(project.SrcPath + project.gallery.folder+'**/*.{jpg,JPG,jpeg,png,PNG,gif}')
+            gulp.src(project.SrcPath + project.galleries.folder+'**/*.{jpg,JPG,jpeg,png,PNG,gif}')
             // Only modify changed with gulp-changed
             .pipe(plugins.changed(dest))
             // resize them according to the width/height settings

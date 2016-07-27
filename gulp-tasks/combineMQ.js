@@ -1,8 +1,9 @@
 /** # combineMQ
 
-@requires   gulp-group-css-media-queries
-@see        https://www.npmjs.com/package/gulp-group-css-media-queries
-@see        https://github.com/SE7ENSKY/group-css-media-queries
+Wed Jul 27 13:05:41 2016: changement pour   gulp-merge-media-queries	
+
+@requires   gulp-merge-media-queries
+@see        https://www.npmjs.com/package/gulp-merge-media-queries
 
 */
 module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onError){
@@ -12,8 +13,10 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
             .pipe(plugins.plumber({
                 errorHandler: onError
             }))
-            .pipe(plugins.groupCssMediaQueries())
-        .pipe(gulp.dest(project.DevPath+project.cssPath))
+            .pipe(plugins.mergeMediaQueries({
+                log: true
+            }))
+            .pipe(gulp.dest(project.BuildPath+project.cssPath))
         .pipe(plugins.notify('MediaQueries combined !'));
     }
 };
