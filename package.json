@@ -41,6 +41,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-swig": "^0.8.0",
     "gulp-util": "^3.0.2",
+    "lazypipe": "^1.0.1",
     "minimist": "^1.1.1",
     "node-sass": "^3.4.1",
     "run-sequence": "^1.2.2",
