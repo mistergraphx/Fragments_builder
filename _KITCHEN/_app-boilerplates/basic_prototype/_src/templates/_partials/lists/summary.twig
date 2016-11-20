@@ -1,0 +1,19 @@
+{% if summary.categories  %}
+    <ul>
+    {% for categorie in summary.categories %}
+        <li><a href="#">{{ categorie.title }}</a>
+        {% if categorie.items %}
+            <ul>
+                {% for item in categorie.items %}
+                    <li>
+                        <a href="/{{ item.link }}.html" title="{{ item.description }}">
+                            {{ item.title }}
+                        </a>
+                   </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}

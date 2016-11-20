@@ -1,0 +1,16 @@
+{
+    "categories": [
+        {
+            "title":"Pages",
+            "items": [
+                    {
+                        "title":"Article Page",
+                        "description":"The article Page",
+                        "thumb":"",
+                        "link":"article"
+                    }
+            ]
+        }
+        
+    ]
+}

@@ -19,13 +19,18 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
     // on initialise la variable par default pour le chemin des sourcemaps
     // par defaut vide pour les sourcemaps inlines
     var sourcemapsPath = '';
+    
     // Test si la config du projet a ces propriétées de definies
     if(project.hasOwnProperty("sourcemaps")
        && project.hasOwnProperty("sourcemaps.path")
        && project.sourcemaps !== 'undefined') {
             sourcemapsPath = project.sourcemaps.path;
     }
-        
+    
+    if(process.env.NODE_ENV === 'production'){
+        sourcemapsPath = './';
+    }
+    
     return function (){
         gulp.src(project.SrcPath + project.sassPath+'**/*.scss')
             // Error Handler
@@ -39,7 +44,7 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
             // Sass
             .pipe(plugins.sass({
                 errLogToConsole: true,
-                outputStyle: project.sassOptions.outputStyle, // compressed | nested
+                outputStyle: sassOptions.outputStyle, // compressed | nested
                 //sourceComments:'none',
                 //sourceMap:'sass',
                 includePaths : project.includePaths

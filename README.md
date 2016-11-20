@@ -49,7 +49,9 @@ de préférence nvm (node version manager), via Brew.
 
 ### Update
 
-Mettre a jour les nodes modules :
+### 
+
+### Mettre a jour les nodes modules :
 
 ```
 cd project_folder/
@@ -58,11 +60,30 @@ sudo npm update gulp-sass
 ```
 
 Pour forcer une update d'une version supérieure : exemple de 1.0x vers 2.0x
+en mettant a jour le package.json 
 
 ```
 sudo npm uninstall <module_name>
 sudo npm install <module_name>
 ```
+
+### Upgrade et mise a jour du projet/package.json
+
+Installer npm-check-update pour gérer les mises a jour plus simplement en ligne de commande :
+
+https://www.npmjs.com/package/npm-check-updates
+
+```
+npm install -g npm-check-updates
+```
+
+Usage
+
+ncu -a : *Upgrade all* met a jour le package.json avec les dernières versions des modules
+ncu -u : met a jour les modules qui sont outdated
+
+on lance ensuite la maj de tout les modules et dépendances avec `sudo npm update`
+
 
 ## Projets
 
@@ -88,11 +109,6 @@ Exemple :
         *	_partials/
         *	index.twig	
 * app.js
-
-
-
-
-
 
 
 ## CHANGELOG

@@ -249,6 +249,7 @@ TODO :
 var gulp    = require('gulp');
 var gutil   = require('gulp-util');
 var del     = require('del');
+var lazypipe = require('lazypipe');
 
 var browserSync = require('browser-sync').create();
 var reload      = browserSync.reload;
