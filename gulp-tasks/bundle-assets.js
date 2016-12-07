@@ -1,8 +1,17 @@
 /** Bundle Assets
 
-Construi un bundle des style et js
+Construit un bundle des style et js
 a partir des informations fournies dans le fichier `app.js`
 situé a la racine du projet.
+
+Configurer les options :
+
+https://github.com/dowjones/gulp-bundle-assets/blob/master/examples/full/bundle.config.js#L86
+
+
+clean-css :
+https://github.com/jakubpawlowicz/clean-css#how-to-use-clean-css-api
+keepSpecialComments
 
 Basic budles config :
 
