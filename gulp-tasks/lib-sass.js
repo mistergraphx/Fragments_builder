@@ -44,7 +44,7 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
             // Sass
             .pipe(plugins.sass({
                 errLogToConsole: true,
-                outputStyle: sassOptions.outputStyle, // compressed | nested
+                outputStyle: project.sassOptions.outputStyle, // compressed | nested
                 //sourceComments:'none',
                 //sourceMap:'sass',
                 includePaths : project.includePaths
