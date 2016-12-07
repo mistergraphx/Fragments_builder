@@ -472,12 +472,14 @@ gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets', 'images2build'], fu
         server: project.BuildPath
     });
     
-    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','assets2build']);
+    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
+    gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
     gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
     gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
     gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
     gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
     gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
+    
 });
 
 // ## Sass-watch
