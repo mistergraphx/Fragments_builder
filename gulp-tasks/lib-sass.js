@@ -2,6 +2,13 @@
 
 Compilation de Fichiers scss
 avec LibSass
+si le NODE_ENV est production les sourcemaps sont externes,
+par default au même niveau que la css généré,
+on peut spécifier un autre chemin dans le fichier de config du projet
+
+    sourcemaps: {
+        path: ''
+    }
 
 - sourcemaps
 - reload
@@ -18,18 +25,21 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
     
     // on initialise la variable par default pour le chemin des sourcemaps
     // par defaut vide pour les sourcemaps inlines
-    var sourcemapsPath = '';
+    var sourcemapsPath;
+       
+    if(process.env.NODE_ENV === 'production'){
+        sourcemapsPath = './';
+    }   
     
-    // Test si la config du projet a ces propriétées de definies
+    // Test si la config du projet a cette propriétées de definie
     if(project.hasOwnProperty("sourcemaps")
        && project.hasOwnProperty("sourcemaps.path")
        && project.sourcemaps !== 'undefined') {
             sourcemapsPath = project.sourcemaps.path;
     }
     
-    if(process.env.NODE_ENV === 'production'){
-        sourcemapsPath = './';
-    }
+    
+    // console.log('SourceMap Path : ' + sourcemapsPath);
     
     return function (){
         gulp.src(project.SrcPath + project.sassPath+'**/*.scss')
