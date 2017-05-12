@@ -1,18 +1,18 @@
 {
   "insertOutput": 0, 
   "parseRegex": "", 
-  "doNotOpenOutputWindow": 0, 
-  "keyboard_shortcut": "", 
   "name": "gulp [default]", 
+  "keyboard_shortcut": "", 
   "operateOnSelection": 0, 
   "value": [
     "gulp --project=%(ask:Project:DEFAULT)"
   ], 
-  "cwd": "%p%i", 
-  "version": "1.0.12", 
+  "parseOutput": 0, 
+  "version": "1.1.5", 
   "env": "NODE_ENV=[[%ask:NODE_ENV:production]]", 
+  "doNotOpenOutputWindow": 0, 
   "showParsedOutputList": 0, 
   "type": "command", 
-  "parseOutput": 0, 
-  "runIn": "new-console"
+  "cwd": "%p%i", 
+  "runIn": "command-output-window"
 }

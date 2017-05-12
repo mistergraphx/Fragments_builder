@@ -7,12 +7,12 @@
   "value": [
     "bower install"
   ], 
-  "cwd": "%i", 
-  "version": "1.0.12", 
+  "parseOutput": 0, 
+  "version": "1.1.5", 
   "env": "", 
   "doNotOpenOutputWindow": 0, 
   "showParsedOutputList": 0, 
   "type": "command", 
-  "parseOutput": 0, 
+  "cwd": "%i", 
   "runIn": "new-console"
 }

@@ -8,11 +8,11 @@
   "value": [
     "gulp prototype --project=%(ask:Project:project_name)"
   ], 
-  "cwd": "%p%i", 
-  "version": "1.0.12", 
+  "parseOutput": 0, 
+  "version": "1.1.5", 
   "env": "NODE_ENV=[[%ask:NODE_ENV:production]]", 
   "showParsedOutputList": 0, 
   "type": "command", 
-  "parseOutput": 0, 
-  "runIn": "new-console"
+  "cwd": "%p%i", 
+  "runIn": "command-output-window"
 }

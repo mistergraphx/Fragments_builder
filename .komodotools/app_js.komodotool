@@ -1,6 +1,7 @@
 {
   "keyboard_shortcut": "", 
   "name": "app.js", 
+  "language": "", 
   "value": [
     "var project = {", 
     "    'SrcPath' : '_KITCHEN/[[%ask1:Project Folder:my_project]]/',", 
@@ -22,10 +23,10 @@
     "}!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
-  "version": "1.0.12", 
-  "auto_abbreviation": "false", 
-  "treat_as_ejs": "false", 
-  "type": "snippet", 
+  "version": "1.1.5", 
   "indent_relative": "false", 
-  "icon": "chrome://komodo/skin/images/snippet.png"
+  "icon": "chrome://komodo/skin/images/snippet.png", 
+  "type": "snippet", 
+  "treat_as_ejs": "false", 
+  "auto_abbreviation": "false"
 }

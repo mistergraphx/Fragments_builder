@@ -1,18 +1,18 @@
 {
   "insertOutput": 0, 
   "parseRegex": "", 
-  "doNotOpenOutputWindow": 0, 
-  "keyboard_shortcut": "", 
   "name": "gulp [image_optim]", 
+  "keyboard_shortcut": "", 
   "operateOnSelection": 0, 
   "value": [
     "gulp image-optim --project=%(ask:Project:DEFAULT)"
   ], 
-  "parseOutput": 0, 
-  "version": "1.0.12", 
+  "cwd": "%p%i", 
+  "version": "1.1.5", 
   "env": "", 
+  "doNotOpenOutputWindow": 0, 
   "showParsedOutputList": 0, 
   "type": "command", 
-  "cwd": "%p%i", 
+  "parseOutput": 0, 
   "runIn": "new-console"
 }
