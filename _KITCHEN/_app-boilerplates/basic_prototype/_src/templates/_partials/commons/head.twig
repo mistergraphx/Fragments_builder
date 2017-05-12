@@ -27,19 +27,15 @@
     
     <meta name="theme-color" content="#3372DF">
 
-    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
-    <!--
-    <link rel="canonical" href="http://www.example.com/">
-    -->
-    <link rel="stylesheet" href="assets/js/vendors/OwlCarousel/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="assets/js/vendors/OwlCarousel/owl-carousel/owl.theme.css">
+        <!-- Page styles -->
+	{% for css in page.assets.css %}
+		<link rel="stylesheet" href="assets/css/{{css}}.css">
+	{% endfor %}
+	<!-- Page scripts	-->
+	{% for js in page.assets.js %}
+		<script src="assets/js/{{js}}.js"></script>
+	{% endfor %}
     
-    
-    <!-- Page styles -->
-    <link rel="stylesheet" href="assets/css/main.css">
-        
-        
-    <script src="assets/js/vendors/modernizr/modernizr.js"></script>
 <!--[if lt IE 9]>
     <script src="assets/js/vendors/html5shiv/dist/html5shiv.js"></script>
 <![endif]-->

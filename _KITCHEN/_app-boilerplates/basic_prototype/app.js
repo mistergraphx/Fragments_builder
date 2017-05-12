@@ -56,7 +56,13 @@ module.exports = {
                 uglify: false,
                 rev: false,
                 map:false
-            }
+            },
+            pluginOptions: { // pass additional options to underlying gulp plugins. By default the options object is empty
+                'gulp-clean-css': {
+                    keepBreaks: true,
+                    keepSpecialComments: 0
+                },
+           }
         },
         'assets/js/plugins': {
             scripts: [
