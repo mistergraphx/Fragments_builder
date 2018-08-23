@@ -11,9 +11,10 @@ https://github.com/dowjones/gulp-bundle-assets/blob/master/examples/full/bundle.
 
 clean-css :
 https://github.com/jakubpawlowicz/clean-css#how-to-use-clean-css-api
-keepSpecialComments
+https://github.com/jakubpawlowicz/clean-css#important-40-breaking-changes
+~~keepSpecialComments~~ in latest version renamed specialComments
 
-Basic budles config :
+Basic bundles config :
 
 ```javascript
 

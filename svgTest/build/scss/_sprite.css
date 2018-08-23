@@ -1,0 +1,119 @@
+.icon {
+    font-size: 64px;
+}
+
+.icon:before {
+    content:' ';
+    vertical-align:middle;
+    display: inline-block;
+    background-image: url("../socialshare.svg");
+    background-repeat: no-repeat;
+    background-size: 15.625em 171.875em;
+}
+
+.no-svg .icon:before {
+    background-image: url("../socialshare.png");
+}
+
+
+
+  .icon.dribble:before {
+      background-position: 0em 0em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.facebook:before {
+      background-position: 0em -15.625em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.github:before {
+      background-position: 0em -31.25em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.googleplus:before {
+      background-position: 0em -46.875em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.linkedIn:before {
+      background-position: 0em -62.5em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.octocat:before {
+      background-position: 0em -78.125em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.pinterest:before {
+      background-position: 0em -93.75em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.seenthis:before {
+      background-position: 0em -109.375em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.twitter:before {
+      background-position: 0em -125em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.viadeo:before {
+      background-position: 0em -140.625em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+  .icon.youtube:before {
+      background-position: 0em -156.25em;
+      width: 15.625em;
+      height: 15.625em;
+  }
+
+
+
+
+

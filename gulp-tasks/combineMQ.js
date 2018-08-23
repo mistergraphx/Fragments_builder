@@ -17,6 +17,6 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
                 log: true
             }))
             .pipe(gulp.dest(project.BuildPath+project.cssPath))
-        .pipe(plugins.notify('MediaQueries combined !'));
+            .pipe(plugins.notify('MediaQueries combined !'));
     }
 };

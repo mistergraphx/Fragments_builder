@@ -35,7 +35,7 @@ run `npm update` in the same directory as your package.json file.
 Stories and examples :
 ----------------------
 
-5 way used gulp to improve ou process :
+5 way isl used gulp to improve ou process :
 http://istrategylabs.com/2015/02/swept-up-in-the-stream-5-ways-isl-used-gulp-to-improve-our-process/
 
 Understanding module export:
@@ -274,18 +274,7 @@ TODO :
 
 @todo - Passer a Gulp 4 - Ordre d'enchainement des taches
         !! A voir au plus vite !!
-        https://github.com/gulpjs/gulp/tree/4.0
         https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-tasks-in-series.md
-
-        https://www.joezimjs.com/javascript/complete-guide-upgrading-gulp-4/
-
-        gulp-bundle-assets n'est pas compatibtle Gulp4
-          Alternatives
-          http://use-asset-builder.austinpray.com/
-
-          https://www.npmjs.com/package/gulp-asset
-
-          Webpack : https://forestry.io/blog/write-better-javascript-with-webpack/#writing-modular-code
 
         gulpif permet de n'executer la tache que quand la pipe précédente a été exécuté
         fonctionne avec lazyPipe
@@ -412,84 +401,164 @@ function getTask(task) {
     return require('./gulp-tasks/' + task)(gulp, plugins, project, sourcemaps, browserSync, onError, marked);
 }
 
+// var module = require('./gulp-tasks/test');
+// console.log(module.test());
+
+
+function libsass(){
+    return gulp.src(project.SrcPath + project.sassPath+'**/*.scss')
+          // Error Handler
+          .pipe($.plumber({
+              errorHandler: onError
+          }))
+          // Sourcemaps initialisation
+          .pipe(sourcemaps.init())
+          // Sass
+          .pipe($.sass({
+              errLogToConsole: true,
+              outputStyle: project.sassOptions.outputStyle, // compressed | nested
+              //sourceComments:'none',
+              //sourceMap:'sass',
+              includePaths : project.includePaths
+          }))
+          .pipe(sourcemaps.write('./', {
+            //includeContent: false,
+            sourceRoot: '../_scss',
+            destPath: project.bundleConfig.dest ,
+            //sourceMappingURLprefix: project.bundleConfig.dest + 'assets/css'
+          }))
+          .pipe(gulp.dest(project.SrcPath+project.cssPath))
+          .pipe(browserSync.stream())
+          .pipe(plugins.notify('Sass Files Compiled'));
+}
+
+
+var AUTOPREFIXER_BROWSERS = [
+  'ie >= 10',
+  'ie_mob >= 10',
+  'ff >= 30',
+  'chrome >= 34',
+  'safari >= 7.1',
+  'opera >= 23',
+  'ios >= 7',
+  'android >= 4.4',
+  'bb >= 10'
+];
+
+function autoprefixer(){
+  return gulp.src(project.SrcPath+project.cssPath+'**/*.css')
+            .pipe(plugins.plumber({
+                errorHandler: onError
+            }))
+            .pipe(plugins.autoprefixer({
+                browsers: AUTOPREFIXER_BROWSERS,
+                cascade: false
+            }))
+            .pipe(gulp.dest(project.BuildPath+project.cssPath));
+}
+
+function bundle(){
+  return gulp.src(project.BasePath+'app.js') // Load Bundle.config file [bundle,copy]
+          .pipe(plugins.bundleAssets())
+          .pipe(plugins.bundleAssets.results(project.SrcPath+'datas/')) // arg is destination of bundle.result.json
+          .pipe(plugins.cached('bundle'))
+          .pipe(gulp.dest(project.bundleConfig.dest))
+          .pipe(browserSync.stream())
+          .pipe(plugins.notify('Bundle is ready !'));
+}
+
+gulp.task('default', gulp.series(libsass,autoprefixer,bundle));
+
+
+
+// exports.test = module.test;
 // ASSETS MANAGMENT
-gulp.task('bundle-assets', getTask('bundle-assets'));
+//
+// gulp.task('bundle-assets', getTask('bundle-assets'));
+//
+// // Update/install icon fonts
+// gulp.task('fontello', getTask('fontello'));
+//
+// // PREPROCSS
+// // gulp.task('lib-sass', getTask('lib-sass'));
+// //exports.libsass = getTask('lib-sass');
+// gulp.task('styles', getTask('styles'));
+// // CSS TOOLS
+// gulp.task('autoprefixer', getTask('autoprefixer'));
+// gulp.task('combineMQ', getTask('combineMQ'));
 
-// Update/install icon fonts
-gulp.task('fontello', getTask('fontello'));
 
-// PREPROCSS
-gulp.task('lib-sass', getTask('lib-sass'));
 
-// CSS TOOLS
-gulp.task('autoprefixer', getTask('autoprefixer'));
-gulp.task('combineMQ', getTask('combineMQ'));
+// SVG Sprites / Icon system
+// https://www.npmjs.com/package/gulp-svg-sprites
+// gulp.task('build_icon-set', getTask('build_icon-set'));
 
 // IMAGES TOOLS
-gulp.task('image-touch-icons', getTask('img_touch-icons')); // Generate touch icons
-gulp.task('image-optim', getTask('img_image-optim')); // Optimize
-gulp.task('image-resize', getTask('img_image-resize')); // Resize image to a max Size
-gulp.task('image-responsives', getTask('img_responsives')); // Generate images variations for different brealpoints
-gulp.task('image-galleries', getTask('img_galleries')); // Generate thumbs
-// TEMPLATING
-gulp.task('swig', getTask('swig'));
+// gulp.task('image-touch-icons', getTask('img_touch-icons')); // Generate touch icons
+// gulp.task('image-optim', getTask('img_image-optim')); // Optimize
+// gulp.task('image-resize', getTask('img_image-resize')); // Resize image to a max Size
+// gulp.task('image-responsives', getTask('img_responsives')); // Generate images variations for different brealpoints
+// gulp.task('image-galleries', getTask('img_galleries')); // Generate thumbs
+// // TEMPLATING
+// gulp.task('mjml', getTask('mjml'));
+// gulp.task('swig', getTask('swig'));
 
-
+//gulp.task('static-site', getTask('static-site'));
 // Utils
 
-gulp.task('html2build', function() {
-    gulp.src(SrcPath+'**/*.html')
-        .pipe($.plumber({
-                errorHandler: onError
-        }))
-        .pipe($.cached('html'))
-        .pipe(gulp.dest(project.BuildPath))
-        .pipe(browserSync.stream())
-        .pipe($.notify({
-            title: "Html Updated",
-            message: "Html files are updated in Build Folder"
-        }));
-});
+// gulp.task('html2build', function() {
+//     gulp.src(SrcPath+'**/*.html')
+//         .pipe($.plumber({
+//                 errorHandler: onError
+//         }))
+//         .pipe($.cached('html'))
+//         .pipe(gulp.dest(project.BuildPath))
+//         .pipe(browserSync.stream())
+//         .pipe($.notify({
+//             title: "Html Updated",
+//             message: "Html files are updated in Build Folder"
+//         }));
+// });
 
-gulp.task('images2build', function() {
-    gulp.src(SrcPath + project.ImagePath + '**/*.{jpg,jpeg,png,gif}')
-        .pipe($.plumber({
-                errorHandler: onError
-        }))
-        .pipe($.cached('images'))
-        .pipe(gulp.dest(project.BuildPath + project.ImagePath))
-        .pipe(browserSync.stream())
-        .pipe($.notify({
-            title: "Images folder Updated",
-            message: "All images files are updated in Build Folder"
-        }));
-});
+// gulp.task('images2build', function() {
+//     gulp.src(SrcPath + project.ImagePath + '**/*.{jpg,jpeg,png,gif,svg}')
+//         .pipe($.plumber({
+//                 errorHandler: onError
+//         }))
+//         .pipe($.cached('images'))
+//         .pipe(gulp.dest(project.BuildPath + project.ImagePath))
+//         .pipe(browserSync.stream())
+//         .pipe($.notify({
+//             title: "Images folder Updated",
+//             message: "All images files are updated in Build Folder"
+//         }));
+// });
 
 
-gulp.task('assets2build', function() {
-    gulp.src(SrcPath+'**/*.{css,js}')
-        .pipe($.plumber({
-                errorHandler: onError
-        }))
-        .pipe($.cached('assets'))
-        .pipe(gulp.dest(project.BuildPath))
-        .pipe(browserSync.stream())
-        .pipe($.notify({
-            title: "Assets Updated",
-            message: "Assets files are updated in Build Folder"
-        }));
-});
+// gulp.task('assets2build', function() {
+//     gulp.src(SrcPath+'**/*.{css,js}')
+//         .pipe($.plumber({
+//                 errorHandler: onError
+//         }))
+//         .pipe($.cached('assets'))
+//         .pipe(gulp.dest(project.BuildPath))
+//         .pipe(browserSync.stream())
+//         .pipe($.notify({
+//             title: "Assets Updated",
+//             message: "Assets files are updated in Build Folder"
+//         }));
+// });
 
 
 
 // browser-sync task for starting the server.
-gulp.task('browser-sync', function() {
-    browserSync.init({
-        server: {
-            baseDir: project.SrcPath
-        }
-    });
-});
+// gulp.task('browser-sync', function() {
+//     browserSync.init({
+//         server: {
+//             baseDir: project.SrcPath
+//         }
+//     });
+// });
 
 // ---------------------------------------------------------------------------
 // # COMMANDS
@@ -502,57 +571,100 @@ gulp.task('browser-sync', function() {
  *
  *
  */
-gulp.task('static-site', ['lib-sass', 'swig', 'bundle-assets','image-galleries','image-responsives','image-touch-icons','images2build'], function () {
-
-    browserSync.init({
-        server: project.BuildPath
-    });
-
-    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','assets2build']);
-    gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
-    gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
-    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
-    gulp.watch(project.SrcPath+project.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
-    gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
-    gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
-});
+//gulp.task('static-site', ['lib-sass', 'swig', 'bundle-assets','image-galleries','image-responsives','image-touch-icons','images2build'], function () {
+//
+//    browserSync.init({
+//        server: project.BuildPath
+//    });
+//
+//    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','assets2build']);
+//    gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
+//    gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
+//    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+//    gulp.watch(project.SrcPath+project.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
+//    gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
+//    gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
+//});
 
 /** # Prototype
  *
  *
  */
-gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets', 'images2build'], function () {
-
-    browserSync.init({
-        server: project.BuildPath
-    });
-
-    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
-    gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
-    gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
-    gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
-    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
-    gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
-    gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
-
-});
+// gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets', 'images2build'], function () {
+//
+//     browserSync.init({
+//         server: project.BuildPath
+//     });
+//
+//     gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
+//     gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
+//     gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
+//     gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
+//     gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+//     gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
+//     gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
+//
+// });
 
 // ## Sass-watch
-gulp.task('sass-watch', ['lib-sass','autoprefixer', 'combineMQ'], function () {
-    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer', 'combineMQ']);
-});
+// gulp.task('sass-watch', ['lib-sass','autoprefixer', 'combineMQ'], function () {
+//     gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer', 'combineMQ']);
+// });
+
+// ## Sass-watch
+// gulp.task('email-builder', ['mjml'], function () {
+//     browserSync.init({
+//         server: project.BuildPath + 'emails/'
+//     });
+//     gulp.watch(project.SrcPath+"emails/*.mjml", ['mjml']);
+//     gulp.watch(project.BuildPath + "emails/*.html").on('change', browserSync.reload);
+// });
+//
+// gulp.task('prefix', ['autoprefixer'], function () {
+//     gulp.watch(project.SrcPath+project.cssPath+"/**/*.css", ['autoprefixer']);
+// });
 
 
-gulp.task('prefix', ['autoprefixer'], function () {
-    gulp.watch(project.SrcPath+project.cssPath+"/**/*.css", ['autoprefixer']);
-});
 
-// ## Default Task
-gulp.task('default', ['lib-sass','bundle-assets','images2build'], function () {
-    gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','assets2build']);
 
-    // gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
-    gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
-    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['bundle-assets']);
-    gulp.watch(project.SrcPath+"**/*.{css,js}", ['bundle-assets']);
-});
+// function test(){
+//   return gulp.src(project.SrcPath + project.sassPath+'**/*.scss')
+//           // Error Handler
+//           .pipe(plugins.plumber({
+//               errorHandler: onError
+//           }))
+//           // Sass
+//           .pipe(plugins.sass({
+//               errLogToConsole: true,
+//               outputStyle: project.sassOptions.outputStyle, // compressed | nested
+//               //sourceComments:'none',
+//               //sourceMap:'sass',
+//               includePaths : project.includePaths
+//           }))
+//           .pipe(gulp.dest(project.SrcPath+project.cssPath));
+//
+// }
+// exports.test = test;
+
+
+ // Default Task
+// gulp.task('default', ['lib-sass','bundle-assets','images2build'], function () {
+//     // gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','combineMQ','bundle-assets']);
+//     gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','bundle-assets']);
+//     gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
+//     gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif,svg}", ['bundle-assets']);
+//     // gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
+//   	//	Quand on modifie un fichier js ou scss du framework on recalcule
+//     // gulp.watch('_EXTENSIONS/fragments/fragments/src/**/*.{scss,js}', ['lib-sass', 'autoprefixer','combineMQ','bundle-assets']);
+//     gulp.watch('_EXTENSIONS/fragments/fragments/src/**/*.{scss,js}', ['lib-sass', 'autoprefixer', 'bundle-assets']);
+// });
+
+
+//gulp.task('default', ['styles','bundle-assets','images2build'], function () {
+//    gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['styles','assets2build']);
+//    gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
+//    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+//    gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
+//	//	Quand on modifie un fichier du framework on recalcule
+//	gulp.watch('_EXTENSIONS/fragments/fragments/src/**/*.scss', ['styles','assets2build']);
+//});

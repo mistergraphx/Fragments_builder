@@ -17,7 +17,7 @@ module.exports = {
         outputStyle: 'nested'
     },
     // Sass include path
-    includePaths: [ 
+    includePaths: [
         '_FRAMEWORKS/bourbon/app/assets/stylesheets/',
         '_FRAMEWORKS/normalize-scss/',
         '_FRAMEWORKS/susy/sass/',
@@ -33,6 +33,16 @@ module.exports = {
            { breakpoint: 'medium', width: 800 },
            { breakpoint: 'large', width: 1200 }
     ],
+    // Emailing - MJML
+    mjml:{
+      options: {
+        keepComments: true,
+        beautify: false,
+        minify: false,
+        validationLevel: soft,
+        filePath: '.'
+      }
+    },
     // Gallery generator
     gallery:{
         folder: 'gallery/', // a folder to inspect in project.image_path
@@ -74,7 +84,7 @@ module.exports = {
               useMin: prodLikeEnvs,
               uglify: true,
               rev:false,
-              maps:false        
+              maps:false
             }
         },
         'assets/js/main': {

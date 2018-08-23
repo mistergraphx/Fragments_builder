@@ -9,7 +9,7 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 - Creation de bundles html/js/css minimisé et optimisés
 - Traitement optimisation des images, creation des icons, favicons, mobile
 
-## Structure 
+## Structure
 
 * _EXTENSIONS/ : dossier du framework personnel (des modules, outils, fonctions utilisables dans plusieurs projets différents.
 
@@ -32,11 +32,11 @@ Sub Tasks :
 
 *   `gulp bundle-assets --project=PROJECT_NAME` -
 *   `gulp autoprefixer --project=PROJECT_NAME` -
-*   `gulp combineMQ --project=PROJECT_NAME` - 
-*   `gulp swig --project=PROJECT_NAME` - 
+*   `gulp combineMQ --project=PROJECT_NAME` -
+*   `gulp swig --project=PROJECT_NAME` -
 *   `gulp fontello --project=PROJECT_NAME` -
 *   `gulp image-optim --project=PROJECT_NAME` - Run optimize image tasks
-*   `gulp image-resize --project=PROJECT_NAME` - 
+*   `gulp image-resize --project=PROJECT_NAME` -
 *   `gulp image-responsives --project=PROJECT_NAME` -
 
 
@@ -49,7 +49,7 @@ de préférence nvm (node version manager), via Brew.
 
 ### Update
 
-### 
+###
 
 ### Mettre a jour les nodes modules :
 
@@ -60,7 +60,7 @@ sudo npm update gulp-sass
 ```
 
 Pour forcer une update d'une version supérieure : exemple de 1.0x vers 2.0x
-en mettant a jour le package.json 
+en mettant a jour le package.json
 
 ```
 sudo npm uninstall <module_name>
@@ -107,7 +107,7 @@ Exemple :
     * 	templates/ : *Dossier des templates swig*
         *	_layouts/
         *	_partials/
-        *	index.twig	
+        *	index.twig
 * app.js
 
 

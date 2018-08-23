@@ -55,26 +55,25 @@ module.exports = function(gulp, plugins, project){
                 // never increase image dimensions
                 upscale : false,
                 format: project.galleries.format
-            }
+            };
+            // https://www.npmjs.com/package/gulp-imagemin#custom-plugin-options-and-custom-gulp-imagemin-options
+            var imageMinOpts = [] ;
             // only specify the height if it exists
             if (s.hasOwnProperty("height")) {
-                resize_settings.height = s.height
+                resize_settings.height = s.height;
             }
             
             gulp.src(project.SrcPath + project.galleries.folder+'**/*.{jpg,JPG,jpeg,png,PNG,gif}')
             // Only modify changed with gulp-changed
-            .pipe(plugins.changed(dest))
+            //.pipe(plugins.changed(dest))
             // resize them according to the width/height settings
             .pipe(plugins.imageResize(resize_settings))
             // optimize the images
-            .pipe(plugins.imagemin({
-                progressive: true,
-                // set this if you are using svg images
-                // svgoPlugins: [{removeViewBox: false}],
-                // use: [pngquant()]
+            .pipe(plugins.imagemin(imageMinOpts,{
+                verbose: true
             }))
             .pipe(plugins.rename(function (path) { path.basename += s.suffix; }))
             .pipe(gulp.dest(dest));
         });
-    }
+    };
 };

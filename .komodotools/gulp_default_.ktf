@@ -1,0 +1,15 @@
+// komodo tool: gulp [default]
+// ===========================
+// cwd: %p 
+// doNotOpenOutputWindow: 0
+// env: NODE_ENV=[[%ask:NODE_ENV:production]]
+// insertOutput: 0
+// is_clean: true
+// operateOnSelection: 0
+// parseOutput: 0
+// runIn: command-output-window
+// showParsedOutputList: 0
+// type: command
+// version: 1.1.5
+// ===========================
+gulp --project=%(ask:PROJECT:DEFAULT)
