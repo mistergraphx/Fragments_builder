@@ -21,7 +21,7 @@ on peut spécifier un autre chemin dans le fichier de config du projet
 @see            https://www.npmjs.com/package/gulp-sourcemaps
 
 */
-module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onError) {
+module.exports = function(gulp, plugins, config, sourcemaps, browserSync, onError) {
 
     // on initialise la variable par default pour le chemin des sourcemaps
     // par defaut vide pour les sourcemaps inlines
@@ -32,17 +32,17 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
     }
 
     // Test si la config du projet a cette propriétées de definie
-    if(project.hasOwnProperty("sourcemaps")
-       && project.hasOwnProperty("sourcemaps.path")
-       && project.sourcemaps !== 'undefined') {
-            sourcemapsPath = project.sourcemaps.path;
+    if(config.hasOwnProperty("sourcemaps")
+       && config.hasOwnProperty("sourcemaps.path")
+       && config.sourcemaps !== 'undefined') {
+            sourcemapsPath = config.sourcemaps.path;
     }
 
 
     // console.log('SourceMap Path : ' + sourcemapsPath);
 
     return function (){
-        gulp.src(project.SrcPath + project.sassPath+'**/*.scss')
+        gulp.src(config.SrcPath + _SASS_DIR +'**/*.scss')
             // Error Handler
             .pipe(plugins.plumber({
                 errorHandler: onError
@@ -58,10 +58,10 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
             // Sass
             .pipe(plugins.sass({
                 errLogToConsole: true,
-                outputStyle: project.sassOptions.outputStyle, // compressed | nested
+                outputStyle: config.sass.outputStyle, // compressed | nested
                 //sourceComments:'none',
                 //sourceMap:'sass',
-                includePaths : project.includePaths
+                includePaths : config.sass.includePaths
             }))
 
 			//Source map
@@ -84,13 +84,13 @@ module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onErr
             .pipe(sourcemaps.write('./', {
       				//includeContent: false,
       				sourceRoot: '../_scss',
-      				destPath: project.bundleConfig.dest ,
-      				//sourceMappingURLprefix: project.bundleConfig.dest + 'assets/css'
+      				destPath: config.bundleConfig.dest ,
+      				//sourceMappingURLprefix: config.bundleConfig.dest + 'assets/css'
       			}))
             // Output
             // ------
-            //.pipe(gulp.dest(project.DevPath+project.cssPath))  // /!\ Attention on copie en Dev alors que Autoprefixer et combine mediaQueries ne sont pas passés
-            .pipe(gulp.dest(project.SrcPath+project.cssPath))
+            //.pipe(gulp.dest(config.DevPath+config.cssPath))  // /!\ Attention on copie en Dev alors que Autoprefixer et combine mediaQueries ne sont pas passés
+            .pipe(gulp.dest(config.SrcPath+config.cssPath))
             .pipe(browserSync.stream())
             .pipe(plugins.notify('Sass Files Compiled'));
     };

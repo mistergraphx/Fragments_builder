@@ -361,13 +361,15 @@ var assignIn = require('lodash.assignin');
 // -----------------------------------------------------------
 // # Projects Configuration
 // -----------------------------------------------------------
+// Globals
 // Base PROJECTS folder
 _PROJECTS_PATH = "./_KITCHEN/";
-// Default configuration
-var _config = require('./_config-default');
-
-
-
+_PROJECT = argv.project ;
+_BASE_PATH = _PROJECTS_PATH + _PROJECT + '/' ;
+_BUILD_DIR = "_BUILD/";
+_JS_DIR = "assets/js/";
+_CSS_DIR = "assets/css/";
+_SASS_DIR = "_scss/";
 
 /** # Project Loader
 
@@ -380,7 +382,11 @@ Chargement du fichier de config passé en argument de la commande.
 @see            https://github.com/gulpjs/gulp/blob/master/docs/recipes/using-external-config-file.md
 @see            http://istrategylabs.com/2015/02/swept-up-in-the-stream-5-ways-isl-used-gulp-to-improve-our-process/
 */
-var project = require(_PROJECTS_PATH + argv.project + '/app.js');
+
+// Default configuration
+var _config = require('./_config-default');
+// Project Overides
+var project = require(_BASE_PATH + '/app.js');
 
 var config = assignIn(_config, project);
 // ------------------------------------------------*/
@@ -394,8 +400,11 @@ var BuildPath = config.BuildPath ;// With a ending /
 var JsPath = config.JsPath ;
 var ImagePath = config.ImagePath ;
 
-gulp.task('test', function(){
+gulp.task('config', function(){
   return console.log('Config : ' + JSON.stringify(config, null, 4));
+});
+gulp.task('test', function(){
+  return console.log('Project : ' + argv.project );
 
 });
 
