@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 /** # Fragment Builder
 
@@ -355,11 +355,17 @@ var onError = function(err) {
     this.emit('end');
 };
 
-
+// Utils
+var assignIn = require('lodash.assignin');
 
 // -----------------------------------------------------------
 // # Projects Configuration
 // -----------------------------------------------------------
+// Base PROJECTS folder
+_PROJECTS_PATH = "./_KITCHEN/";
+// Default configuration
+var _config = require('./_config-default');
+
 
 
 
@@ -374,21 +380,24 @@ Chargement du fichier de config passé en argument de la commande.
 @see            https://github.com/gulpjs/gulp/blob/master/docs/recipes/using-external-config-file.md
 @see            http://istrategylabs.com/2015/02/swept-up-in-the-stream-5-ways-isl-used-gulp-to-improve-our-process/
 */
+var project = require(_PROJECTS_PATH + argv.project + '/app.js');
 
-var project = require('./_KITCHEN/' + argv.project + '/app.js');
-
-
+var config = assignIn(_config, project);
 // ------------------------------------------------*/
 // # SETTINGS | SHORTCUTS
 // ------------------------------------------------*/
 
 // SRC
-var SrcPath = project.SrcPath; // With a ending /
+var SrcPath = config.SrcPath; // With a ending /
 // Build
-var BuildPath = project.BuildPath ;// With a ending /
-var JsPath = project.JsPath ;
-var ImagePath = project.ImagePath ;
+var BuildPath = config.BuildPath ;// With a ending /
+var JsPath = config.JsPath ;
+var ImagePath = config.ImagePath ;
 
+gulp.task('test', function(){
+  return console.log('Config : ' + JSON.stringify(config, null, 4));
+
+});
 
 // -----------------------------------------------------------
 // # TASKS
@@ -409,7 +418,7 @@ var ImagePath = project.ImagePath ;
 @see https://www.npmjs.com/package/gulp-task-loader
 */
 function getTask(task) {
-    return require('./gulp-tasks/' + task)(gulp, plugins, project, sourcemaps, browserSync, onError, marked);
+    return require('./gulp-tasks/' + task)(gulp, plugins, config, sourcemaps, browserSync, onError, marked);
 }
 
 // ASSETS MANAGMENT
@@ -443,7 +452,7 @@ gulp.task('html2build', function() {
                 errorHandler: onError
         }))
         .pipe($.cached('html'))
-        .pipe(gulp.dest(project.BuildPath))
+        .pipe(gulp.dest(config.BuildPath))
         .pipe(browserSync.stream())
         .pipe($.notify({
             title: "Html Updated",
@@ -452,12 +461,12 @@ gulp.task('html2build', function() {
 });
 
 gulp.task('images2build', function() {
-    gulp.src(SrcPath + project.ImagePath + '**/*.{jpg,jpeg,png,gif}')
+    gulp.src(SrcPath + config.ImagePath + '**/*.{jpg,jpeg,png,gif}')
         .pipe($.plumber({
                 errorHandler: onError
         }))
         .pipe($.cached('images'))
-        .pipe(gulp.dest(project.BuildPath + project.ImagePath))
+        .pipe(gulp.dest(config.BuildPath + config.ImagePath))
         .pipe(browserSync.stream())
         .pipe($.notify({
             title: "Images folder Updated",
@@ -472,7 +481,7 @@ gulp.task('assets2build', function() {
                 errorHandler: onError
         }))
         .pipe($.cached('assets'))
-        .pipe(gulp.dest(project.BuildPath))
+        .pipe(gulp.dest(config.BuildPath))
         .pipe(browserSync.stream())
         .pipe($.notify({
             title: "Assets Updated",
@@ -486,7 +495,7 @@ gulp.task('assets2build', function() {
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
-            baseDir: project.SrcPath
+            baseDir: config.SrcPath
         }
     });
 });
@@ -505,16 +514,16 @@ gulp.task('browser-sync', function() {
 gulp.task('static-site', ['lib-sass', 'swig', 'bundle-assets','image-galleries','image-responsives','image-touch-icons','images2build'], function () {
 
     browserSync.init({
-        server: project.BuildPath
+        server: config.BuildPath
     });
 
-    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','assets2build']);
-    gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
-    gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
-    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
-    gulp.watch(project.SrcPath+project.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
-    gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
-    gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
+    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','assets2build']);
+    gulp.watch(config.SrcPath+"templates/*.twig", ['swig']);
+    gulp.watch(config.SrcPath+"datas/**/*.json", ['swig']);
+    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+    gulp.watch(config.SrcPath+config.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
+    gulp.watch(config.SrcPath+"**/*.html", ['html2build']);
+    gulp.watch(config.SrcPath+"**/*.{css,js}", ['assets2build']);
 });
 
 /** # Prototype
@@ -524,35 +533,36 @@ gulp.task('static-site', ['lib-sass', 'swig', 'bundle-assets','image-galleries',
 gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets', 'images2build'], function () {
 
     browserSync.init({
-        server: project.BuildPath
+        server: config.BuildPath
     });
 
-    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
-    gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
-    gulp.watch(project.SrcPath+"templates/*.twig", ['swig']);
-    gulp.watch(project.SrcPath+"datas/**/*.json", ['swig']);
-    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
-    gulp.watch(project.SrcPath+"**/*.html", ['html2build']);
-    gulp.watch(project.SrcPath+"**/*.{css,js}", ['assets2build']);
+    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
+    gulp.watch(config.SrcPath+'**/*.{css,js}', ['bundle-assets']);
+    gulp.watch(config.SrcPath+"templates/*.twig", ['swig']);
+    gulp.watch(config.SrcPath+"datas/**/*.json", ['swig']);
+    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+    gulp.watch(config.SrcPath+"**/*.html", ['html2build']);
+    gulp.watch(config.SrcPath+"**/*.{css,js}", ['assets2build']);
 
 });
 
 // ## Sass-watch
 gulp.task('sass-watch', ['lib-sass','autoprefixer', 'combineMQ'], function () {
-    gulp.watch(project.SrcPath+project.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer', 'combineMQ']);
+    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer', 'combineMQ']);
 });
 
 
 gulp.task('prefix', ['autoprefixer'], function () {
-    gulp.watch(project.SrcPath+project.cssPath+"/**/*.css", ['autoprefixer']);
+    gulp.watch(config.SrcPath+config.cssPath+"/**/*.css", ['autoprefixer']);
 });
+
 
 // ## Default Task
 gulp.task('default', ['lib-sass','bundle-assets','images2build'], function () {
-    gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','assets2build']);
+    gulp.watch(config.SrcPath+config.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','assets2build']);
 
-    // gulp.watch(project.SrcPath+project.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
-    gulp.watch(project.SrcPath+'**/*.{css,js}', ['bundle-assets']);
-    gulp.watch(project.SrcPath+project.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['bundle-assets']);
-    gulp.watch(project.SrcPath+"**/*.{css,js}", ['bundle-assets']);
+    // gulp.watch(config.SrcPath+config.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
+    gulp.watch(config.SrcPath+'**/*.{css,js}', ['bundle-assets']);
+    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['bundle-assets']);
+    gulp.watch(config.SrcPath+"**/*.{css,js}", ['bundle-assets']);
 });
