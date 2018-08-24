@@ -297,6 +297,7 @@ TODO :
                 - et images types gallerie
 
 */
+
 // ------------------------------------------------*/
 // REQUIRE
 // ------------------------------------------------*/
@@ -330,6 +331,7 @@ var plugins = gulpLoadPlugins({
         camelize: true,
         lazy:true
     });
+
 var $ = plugins; //shortcut
 
 /**
@@ -363,6 +365,7 @@ var assignIn = require('lodash.assignin');
 // -----------------------------------------------------------
 // Globals
 // Base PROJECTS folder
+
 _PROJECTS_PATH = "./_KITCHEN/";
 _PROJECT = argv.project ;
 _BASE_PATH = _PROJECTS_PATH + _PROJECT + '/' ;
@@ -429,6 +432,12 @@ gulp.task('test', function(){
 function getTask(task) {
     return require('./gulp-tasks/' + task)(gulp, plugins, config, sourcemaps, browserSync, onError, marked);
 }
+// Styles
+// Pre-pross/ Post : autoprefixing, …
+gulp.task('styles', getTask('styles'));
+
+
+
 
 // ASSETS MANAGMENT
 gulp.task('bundle-assets', getTask('bundle-assets'));
@@ -436,12 +445,7 @@ gulp.task('bundle-assets', getTask('bundle-assets'));
 // Update/install icon fonts
 gulp.task('fontello', getTask('fontello'));
 
-// PREPROCSS
-gulp.task('lib-sass', getTask('lib-sass'));
 
-// CSS TOOLS
-gulp.task('autoprefixer', getTask('autoprefixer'));
-gulp.task('combineMQ', getTask('combineMQ'));
 
 // IMAGES TOOLS
 gulp.task('image-touch-icons', getTask('img_touch-icons')); // Generate touch icons
@@ -520,13 +524,13 @@ gulp.task('browser-sync', function() {
  *
  *
  */
-gulp.task('static-site', ['lib-sass', 'swig', 'bundle-assets','image-galleries','image-responsives','image-touch-icons','images2build'], function () {
+gulp.task('static-site', ['styles', 'swig', 'bundle-assets','image-galleries','image-responsives','image-touch-icons','images2build'], function () {
 
     browserSync.init({
         server: config.BuildPath
     });
 
-    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','assets2build']);
+    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['styles','assets2build']);
     gulp.watch(config.SrcPath+"templates/*.twig", ['swig']);
     gulp.watch(config.SrcPath+"datas/**/*.json", ['swig']);
     gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
@@ -539,13 +543,13 @@ gulp.task('static-site', ['lib-sass', 'swig', 'bundle-assets','image-galleries',
  *
  *
  */
-gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets', 'images2build'], function () {
+gulp.task('prototype', ['styles', 'swig', 'bundle-assets', 'images2build'], function () {
 
     browserSync.init({
         server: config.BuildPath
     });
 
-    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
+    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['styles','assets2build']);
     gulp.watch(config.SrcPath+'**/*.{css,js}', ['bundle-assets']);
     gulp.watch(config.SrcPath+"templates/*.twig", ['swig']);
     gulp.watch(config.SrcPath+"datas/**/*.json", ['swig']);
@@ -556,19 +560,14 @@ gulp.task('prototype', ['lib-sass', 'swig', 'bundle-assets', 'images2build'], fu
 });
 
 // ## Sass-watch
-gulp.task('sass-watch', ['lib-sass','autoprefixer', 'combineMQ'], function () {
-    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['lib-sass', 'autoprefixer', 'combineMQ']);
-});
-
-
-gulp.task('prefix', ['autoprefixer'], function () {
-    gulp.watch(config.SrcPath+config.cssPath+"/**/*.css", ['autoprefixer']);
+gulp.task('sass-watch', ['styles'], function () {
+    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['styles']);
 });
 
 
 // ## Default Task
-gulp.task('default', ['lib-sass','bundle-assets','images2build'], function () {
-    gulp.watch(config.SrcPath+config.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','assets2build']);
+gulp.task('default', ['styles','bundle-assets','images2build'], function () {
+    gulp.watch(config.SrcPath+config.sassPath+'**/*.scss', ['styles','assets2build']);
 
     // gulp.watch(config.SrcPath+config.sassPath+'**/*.scss', ['lib-sass', 'autoprefixer','combineMQ','assets2build']);
     gulp.watch(config.SrcPath+'**/*.{css,js}', ['bundle-assets']);

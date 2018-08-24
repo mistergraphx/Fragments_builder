@@ -113,6 +113,13 @@ Exemple :
 
 ## CHANGELOG
 
+version 0.1.0
+
+Mise a jour des modules Node.js
+
+Gestion de configurations
+
+
 Sun Apr 10 19:17:39 2016
 :   *   Add html minification in swig task
         gulp-htmlmin

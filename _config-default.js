@@ -11,8 +11,12 @@ module.exports = {
   BuildPath: _BASE_PATH + _BUILD_DIR,
   // Plugins options
   sass: { // https://github.com/sass/node-sass#options
-      outputStyle: 'nested', // nested, expanded, compact, compressed
-      includePaths: []
+    errLogToConsole: true,
+    outputStyle: 'nested', // nested, expanded, compact, compressed
+    includePaths: []
+  },
+  sourcemaps:{
+      path: ''
   },
   autoprefixer:{
       browsers: ['last 2 versions'],
