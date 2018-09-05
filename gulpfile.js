@@ -369,10 +369,11 @@ var assignIn = require('lodash.assignin');
 _PROJECTS_PATH = "./_KITCHEN/";
 _PROJECT = argv.project ;
 _BASE_PATH = _PROJECTS_PATH + _PROJECT + '/' ;
+_SRC_DIR = "_src/";
 _BUILD_DIR = "_BUILD/";
 _JS_DIR = "assets/js/";
 _CSS_DIR = "assets/css/";
-_SASS_DIR = "_scss/";
+_SASS_DIR = "assets/_scss/";
 
 /** # Project Loader
 
@@ -437,13 +438,12 @@ function getTask(task) {
 gulp.task('styles', getTask('styles'));
 
 
-
+gulp.task('build-sprite', getTask('svgSprite'));
 
 // ASSETS MANAGMENT
 gulp.task('bundle-assets', getTask('bundle-assets'));
 
-// Update/install icon fonts
-gulp.task('fontello', getTask('fontello'));
+
 
 
 
@@ -453,6 +453,7 @@ gulp.task('image-optim', getTask('img_image-optim')); // Optimize
 gulp.task('image-resize', getTask('img_image-resize')); // Resize image to a max Size
 gulp.task('image-responsives', getTask('img_responsives')); // Generate images variations for different brealpoints
 gulp.task('image-galleries', getTask('img_galleries')); // Generate thumbs
+
 // TEMPLATING
 gulp.task('swig', getTask('swig'));
 
