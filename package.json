@@ -14,6 +14,9 @@
   "bugs": {
     "url": "https://github.com/mistergraphx/Fragments_builder/issues"
   },
+  "engines": {
+    "node": ">=6.0"
+  },
   "devDependencies": {
     "del": "^3.0.0",
     "gulp-cache": "^0.4.5",
