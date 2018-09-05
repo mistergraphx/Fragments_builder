@@ -317,7 +317,7 @@ var argv = require('minimist')(process.argv.slice(2));
 
 var imageResize = require('gulp-image-resize');
 //var pngcrush  = require('imagemin-pngcrush');
-var marked = require('swig-marked');
+
 
 
 /** # Auto chargement des plugins
@@ -374,6 +374,9 @@ _BUILD_DIR = "_BUILD/";
 _JS_DIR = "assets/js/";
 _CSS_DIR = "assets/css/";
 _SASS_DIR = "assets/_scss/";
+_PAGES_DIR = "pages/";
+_DATAS_DIR = "datas/";
+_TEMPLATES_DIR = "templates/";
 
 /** # Project Loader
 
@@ -431,7 +434,7 @@ gulp.task('test', function(){
 @see https://www.npmjs.com/package/gulp-task-loader
 */
 function getTask(task) {
-    return require('./gulp-tasks/' + task)(gulp, plugins, config, sourcemaps, browserSync, onError, marked);
+    return require('./gulp-tasks/' + task)(gulp, plugins, config, browserSync, onError);
 }
 // Styles
 // Pre-pross/ Post : autoprefixing, …
@@ -443,6 +446,7 @@ gulp.task('build-sprite', getTask('svgSprite'));
 // ASSETS MANAGMENT
 gulp.task('bundle-assets', getTask('bundle-assets'));
 
+gulp.task('prototype', getTask('prototype'));
 
 
 
@@ -540,25 +544,7 @@ gulp.task('static-site', ['styles', 'swig', 'bundle-assets','image-galleries','i
     gulp.watch(config.SrcPath+"**/*.{css,js}", ['assets2build']);
 });
 
-/** # Prototype
- *
- *
- */
-gulp.task('prototype', ['styles', 'swig', 'bundle-assets', 'images2build'], function () {
 
-    browserSync.init({
-        server: config.BuildPath
-    });
-
-    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['styles','assets2build']);
-    gulp.watch(config.SrcPath+'**/*.{css,js}', ['bundle-assets']);
-    gulp.watch(config.SrcPath+"templates/*.twig", ['swig']);
-    gulp.watch(config.SrcPath+"datas/**/*.json", ['swig']);
-    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
-    gulp.watch(config.SrcPath+"**/*.html", ['html2build']);
-    gulp.watch(config.SrcPath+"**/*.{css,js}", ['assets2build']);
-
-});
 
 // ## Sass-watch
 gulp.task('sass-watch', ['styles'], function () {

@@ -7,7 +7,7 @@ var prodLikeEnvs = ['production', 'staging'];
 module.exports = {
   // File system
   BasePath: _BASE_PATH,
-  SrcPath: _BASE_PATH + '_src/',
+  SrcPath: _BASE_PATH + _SRC_DIR,
   BuildPath: _BASE_PATH + _BUILD_DIR,
   // Plugins options
   sass: { // https://github.com/sass/node-sass#options
@@ -47,6 +47,11 @@ module.exports = {
         symbols: _SRC_DIR + "templates/symbols_demo.twig"
       }
     }
+  },
+  nunjuks:{
+      defaultTemplateDir: _BASE_PATH + _SRC_DIR + _TEMPLATES_DIR,
+      searchPaths: [_BASE_PATH + _SRC_DIR + _TEMPLATES_DIR],
+      templateExt: '.twig',
   },
   bundleResults:{
         dest: '',
