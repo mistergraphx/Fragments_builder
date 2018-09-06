@@ -358,7 +358,8 @@ var onError = function(err) {
 };
 
 // Utils
-var assignIn = require('lodash.assignin');
+var assignIn = require('lodash.assignin'),
+_=require('lodash');
 
 // -----------------------------------------------------------
 // # Projects Configuration
@@ -395,7 +396,7 @@ var _config = require('./_config-default');
 // Project Overides
 var project = require(_BASE_PATH + '/app.js');
 
-var config = assignIn(_config, project);
+var config = _.merge({},_config, project);
 // ------------------------------------------------*/
 // # SETTINGS | SHORTCUTS
 // ------------------------------------------------*/

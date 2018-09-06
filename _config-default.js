@@ -64,7 +64,7 @@ module.exports = {
   nunjuks:{
       defaultTemplateDir: _BASE_PATH + _SRC_DIR + _TEMPLATES_DIR,
       searchPaths: [_BASE_PATH + _SRC_DIR + _TEMPLATES_DIR],
-      templateExt: '.twig',
+      templateExt: '.njk',
   },
   bundleResults:{
         dest: '',
