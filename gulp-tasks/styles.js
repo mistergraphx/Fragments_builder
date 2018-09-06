@@ -8,11 +8,12 @@
 
 
 */
-module.exports = function(gulp, plugins, config, sourcemaps, browserSync, onError) {
-    let postcss = require('gulp-postcss');
+module.exports = function(gulp, plugins, config, browserSync, onError) {
+  let postcss = require('gulp-postcss'),
+      sourcemaps = require('gulp-sourcemaps');
 
-    return function (){
-        gulp.src(config.SrcPath + _SASS_DIR +'**/*.scss')
+  return function (){
+        gulp.src(config.SrcPath + _SASS_DIR + '**/*.scss')
             // Error Handler
             .pipe(plugins.plumber({
                 errorHandler: onError
@@ -34,7 +35,7 @@ module.exports = function(gulp, plugins, config, sourcemaps, browserSync, onErro
             // Output
             // ------
             //.pipe(gulp.dest(project.DevPath+project.cssPath))  // /!\ Attention on copie en Dev alors que Autoprefixer et combine mediaQueries ne sont pas passés
-            .pipe(gulp.dest(config.BuildPath + _CSS_DIR))
+            .pipe(gulp.dest(config.SrcPath + _CSS_DIR))
             .pipe(browserSync.stream())
             .pipe(plugins.notify('Sass Files Compiled'));
     };

@@ -38,7 +38,7 @@ bundle: {
           useMin: false,
           uglify: false,
           rev:false,
-          maps:false        
+          maps:false
         }
     },
     'assets/js/main': {
@@ -76,13 +76,13 @@ Produit un fichier datas/bundle.result.json, exploitable ensuite par swig
 @see    https://github.com/dowjones/gulp-bundle-assets/blob/master/examples/full/bundle.config.js
 
 */
-module.exports = function(gulp, plugins, project, sourcemaps, browserSync, onError) {
+module.exports = function(gulp, plugins, config, browserSync, onError) {
     return function(){
-        gulp.src(project.BasePath+'app.js') // Load Bundle.config file [bundle,copy]
+        gulp.src(config.BasePath+'app.js') // Load Bundle.config file [bundle,copy]
             .pipe(plugins.bundleAssets())
-            .pipe(plugins.bundleAssets.results(project.SrcPath+'datas/')) // arg is destination of bundle.result.json
+            .pipe(plugins.bundleAssets.results(config.SrcPath+'datas/')) // arg is destination of bundle.result.json
             .pipe(plugins.cached('bundle-assets'))
-            .pipe(gulp.dest(project.bundleConfig.dest))
+            .pipe(gulp.dest(config.bundleConfig.dest))
             .pipe(browserSync.stream())
             .pipe(plugins.notify('Bundle is ready !'));
     };

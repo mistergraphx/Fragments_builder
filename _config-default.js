@@ -66,7 +66,7 @@ module.exports = {
       searchPaths: [_BASE_PATH + _SRC_DIR + _TEMPLATES_DIR],
       templateExt: '.njk',
   },
-  bundleResults:{
+  bundleConfig:{
         dest: '',
         // précéder le path de l'url de prod pour que les chemins soit correct
         // y compris quand on parcours l'arborescence des pages
