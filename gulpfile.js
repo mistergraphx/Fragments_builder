@@ -446,6 +446,7 @@ gulp.task('build-sprite', getTask('svgSprite'));
 // ASSETS MANAGMENT
 gulp.task('bundle-assets', getTask('bundle-assets'));
 
+// TEMPLATING
 gulp.task('prototype', getTask('prototype'));
 
 
@@ -458,8 +459,7 @@ gulp.task('image-resize', getTask('img_image-resize')); // Resize image to a max
 gulp.task('image-responsives', getTask('img_responsives')); // Generate images variations for different brealpoints
 gulp.task('image-galleries', getTask('img_galleries')); // Generate thumbs
 
-// TEMPLATING
-gulp.task('swig', getTask('swig'));
+
 
 
 // Utils

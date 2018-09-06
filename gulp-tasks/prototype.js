@@ -5,6 +5,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   var fsRecurs = require('fs-readdir-recursive');
   var util = require('util');
   var assignIn = require('lodash.assignin');
+  var spy = require("through2-spy");
   var rename = require("gulp-rename");
   // https://nodejs.org/docs/latest/api/path.html#path_path_basename_path_ext
   var path = require('path');
@@ -134,26 +135,19 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 // On traite les data avec nunjuks.renderString
                 // On applique le rendu nunjuk (data , partials) au content
                 // on utilise gulp-wrap pour mettre a jour file.content
-                // Warning : DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead
-                // https://nodejs.org/en/docs/guides/buffer-constructor-deprecation/
                 file.contents = new Buffer.from(compile.renderString(frontmatter.content.toString(), data));
 
-                // marked.setOptions({
-                //     highlight: function (code) {
-                //         return require('highlight.js').highlightAuto(code).value;
-                //     }
-                // });
-                //
-                // marked(file.contents.toString(), config.markedConfig, function(err,data){
-                //     file.contents = new Buffer.from(data);
-                // });
+                marked.setOptions({
+                    highlight: function (code) {
+                        return require('highlight.js').highlightAuto(code).value;
+                    }
+                });
 
+                marked(file.contents.toString(), config.markedConfig, function(err,data){
+                    file.contents = new Buffer.from(data);
+                });
                 return data;
             }))
-            // .pipe(spy.obj(function(file) {
-            //     console.log('-------------------------');
-            //     console.log(file.data);
-            // }))
             // Navigation construct
             .pipe(nav())
             // wrap
@@ -167,17 +161,21 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                   }
                 },
                 function(file){
-                            //file.data = assignIn(file.data,{
-                            //    navigation: file.data.nav
-                            //});
-                            //console.log(file.data);
-                            return file.data;
+                      //file.data = assignIn(file.data,{
+                      //    navigation: file.data.nav
+                      //});
+                      //console.log(file.data);
+                      return file.data;
                   },{// Options : https://github.com/tj/consolidate.js/blob/master/lib/consolidate.js#L1118
                       engine: 'nunjucks',
                       nunjucksEnv: '',
                       loader: loader // @see loader
                   }
             ))
+            .pipe(spy.obj(function(file) {
+                console.log('-------------------------');
+                console.log(file.data);
+            }))
             .pipe(rename({
                 extname: ".html"
             }))

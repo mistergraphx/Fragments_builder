@@ -31,7 +31,8 @@
     "gulp-size": "^2.1.0",
     "gulp-util": "^3.0.7",
     "lazypipe": "^1.0.1",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^1.2.2",
+    "through2-spy": "^2.0.0"
   },
   "dependencies": {
     "autoprefixer": "^9.1.3",

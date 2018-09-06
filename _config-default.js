@@ -48,6 +48,19 @@ module.exports = {
       }
     }
   },
+  markedConfig: {
+      gfm: true, // Enable GitHub flavored markdown.
+      tables: true, // Enable GFM tables. This option requires the gfm option to be true.
+      breaks: false, // Enable GFM line breaks. This option requires the gfm option to be true.
+      pedantic: false,
+      sanitize: false, // Sanitize the output. Ignore any HTML that has been input.
+      smartLists: true,
+      smartypants: false // Use "smart" typograhic punctuation for things like quotes and dashes.
+  },
+  frontmatterConfig: {
+      language:'yaml',
+      delimiters:'---' // Default
+  },
   nunjuks:{
       defaultTemplateDir: _BASE_PATH + _SRC_DIR + _TEMPLATES_DIR,
       searchPaths: [_BASE_PATH + _SRC_DIR + _TEMPLATES_DIR],
