@@ -4,7 +4,7 @@
 module.exports = function(gulp, plugins, config, browserSync, onError) {
   var fsRecurs = require('fs-readdir-recursive');
   var util = require('util');
-  var assignIn = require('lodash.assignin');
+  var _ = require('lodash');
   var spy = require("through2-spy");
   var rename = require("gulp-rename");
   // https://nodejs.org/docs/latest/api/path.html#path_path_basename_path_ext
@@ -98,7 +98,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 var data = {};
                 var xtra = {};
                 if (file.data) {
-                  data = assignIn(file.data, data);
+                  data = _.merge({},file.data, data);
                   // or just data = file.data if you don't care to merge. Up to you.
                 }
                 // Y'a t'il un fichier json de datas supplémentaires a fournir
@@ -112,7 +112,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 }
                 // injecter les settings/datas disponibles ensuites dans les templates
                 // assets, locals,
-                data = assignIn(data, {
+                data = _.merge({},data, {
                     assets: getJSONDataFile(datasPath + config.bundleResults.fileName + '.json'),
                     app : getJSONDataFile(datasPath + 'app.json'),
                     summary: buildIndex(datasPath,'page')
@@ -124,7 +124,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 // Les datas du frontmatter doivent êtres accessibles
                 // au premier niveau de file.data pour être correctements utilisées par gulp-wrap, gulp-nav
                 // et être propagées dans l'héritage des templates
-                data = assignIn(data,frontmatter.data);
+                data = _.merge({},data,frontmatter.data);
                 // merge xtra + frontmatter
                 // data = assignIn(data.environement, frontmatter.data);
 
@@ -146,6 +146,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 marked(file.contents.toString(), config.markedConfig, function(err,data){
                     file.contents = new Buffer.from(data);
                 });
+
                 return data;
             }))
             // Navigation construct
