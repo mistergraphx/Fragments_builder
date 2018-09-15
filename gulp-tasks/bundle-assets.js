@@ -4,69 +4,7 @@ Construit un bundle des style et js
 a partir des informations fournies dans le fichier `app.js`
 situé a la racine du projet.
 
-Configurer les options :
-
-https://github.com/dowjones/gulp-bundle-assets/blob/master/examples/full/bundle.config.js#L86
-
-
-clean-css :
-https://github.com/jakubpawlowicz/clean-css#how-to-use-clean-css-api
-https://github.com/jakubpawlowicz/clean-css#important-40-breaking-changes
-~~keepSpecialComments~~ in latest version renamed specialComments
-
-Basic bundles config :
-
-```javascript
-
-bundle: {
-    'assets/css/main':{
-        styles:[
-            './_KITCHEN/__APP_NAME__/_src/assets/css/main.css'
-        ],
-        options: {
-            useMin: false,
-            uglify: false,
-            rev:false,
-            maps:false
-        }
-    },
-    'assets/js/plugins': {
-        scripts: [
-              './_JS_LIBS/picturefill/src/picturefill.js',
-        ],
-        options: {
-          useMin: false,
-          uglify: false,
-          rev:false,
-          maps:false
-        }
-    },
-    'assets/js/main': {
-      scripts: [
-        './_KITCHEN/__APP_NAME__/_src/assets/js/main.js',
-      ],
-      options: {
-        useMin: false,
-        uglify: false,
-        rev:false,
-        maps:false
-      }
-    }
-},
-copy: [
-    {
-        src: [
-        //
-        ],
-        base: './_KITCHEN/__APP_NAME__/_src/',
-        watch:true
-    }
-]
-
-
-```
-
-Produit un fichier datas/bundle.result.json, exploitable ensuite par swig
+Produit un fichier datas/bundle.result.json, exploitable ensuite par les templates engines
 
 @file   gulp-tasks/bundle.js
 @param  gulp
