@@ -78,6 +78,7 @@ _PROJECTS_PATH = "./_KITCHEN/";
 _PROJECT = argv.project ;
 _BASE_PATH = _PROJECTS_PATH + _PROJECT + '/' ;
 _SRC_DIR = "_src/";
+_SRC_PATH = _BASE_PATH + _SRC_DIR;
 _BUILD_DIR = "_BUILD/";
 _JS_DIR = "assets/js/";
 _CSS_DIR = "assets/css/";
