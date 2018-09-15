@@ -26,7 +26,7 @@ module.exports = {
       path: ''
   },
   svgSprite: {
-    sourcesPath: _BASE_PATH + _SRC_DIR + 'assets/svg/',
+    sourcesPath: _SRC_PATH + 'assets/svg/',
     spriteDest: _BASE_PATH ,
     options: { // https://www.npmjs.com/package/gulp-svg-sprites#options
       mode: "symbols", // sprite|defs|symbols
@@ -62,8 +62,8 @@ module.exports = {
       delimiters:'---' // Default
   },
   nunjuks:{
-      defaultTemplateDir: _BASE_PATH + _SRC_DIR + _TEMPLATES_DIR,
-      searchPaths: [_BASE_PATH + _SRC_DIR + _TEMPLATES_DIR],
+      defaultTemplateDir: _SRC_PATH + _TEMPLATES_DIR,
+      searchPaths: [_SRC_PATH + _TEMPLATES_DIR],
       templateExt: '.njk',
   },
   bundleConfig:{
