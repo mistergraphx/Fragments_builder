@@ -113,9 +113,13 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 // injecter les settings/datas disponibles ensuites dans les templates
                 // assets, locals,
                 data = _.merge({},data, {
-                    assets: getJSONDataFile(datasPath + config.bundleConfig.fileName + '.json'),
+                    bundle: getJSONDataFile(datasPath + config.bundleConfig.fileName + '.json'),
                     app : getJSONDataFile(datasPath + 'app.json'),
-                    summary: buildIndex(datasPath,'page')
+                    test: {
+                      bundleFileName: getJSONDataFile(datasPath + config.bundleConfig.fileName + '.json'),
+                      some: ['elements','elements']
+                    }
+                    //summary: buildIndex(datasPath,'page')
                 });
                 // On extrait et sépare entete/contenu
                 // Extract/split file datas  extrac content|frontmatter
@@ -192,7 +196,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
             // ------
             //.pipe(gulp.dest(project.DevPath+project.cssPath))  // /!\ Attention on copie en Dev alors que Autoprefixer et combine mediaQueries ne sont pas passés
             .pipe(gulp.dest(config.BuildPath))
-            // .pipe(browserSync.stream())
+            .pipe(browserSync.stream())
             // .pipe(plugins.notify('Task::Prototype DONE'));
     };
 };

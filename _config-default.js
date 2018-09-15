@@ -9,6 +9,7 @@ module.exports = {
   BasePath: _BASE_PATH,
   SrcPath: _BASE_PATH + _SRC_DIR,
   BuildPath: _BASE_PATH + _BUILD_DIR,
+  sassPath: _SRC_PATH + _SASS_DIR,
   // Plugins options
   sass: { // https://github.com/sass/node-sass#options
     errLogToConsole: true,
@@ -71,7 +72,7 @@ module.exports = {
         // précéder le path de l'url de prod pour que les chemins soit correct
         // y compris quand on parcours l'arborescence des pages
         pathPrefix: '/',
-        fileName: 'bundle.results'
+        fileName: 'bundle.result'
   },
   bundle: {
 

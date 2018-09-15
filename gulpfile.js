@@ -221,7 +221,7 @@ gulp.task('assets2build', function() {
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
-            baseDir: config.SrcPath
+            baseDir: config.BuildPath
         }
     });
 });
@@ -237,28 +237,25 @@ gulp.task('browser-sync', function() {
  *
  *
  */
-gulp.task('static-site', ['styles', 'swig', 'bundle-assets','image-galleries','image-responsives','image-touch-icons','images2build'], function () {
-
+gulp.task('static-site', ['styles', 'prototype', 'bundle-assets'], function () {
     browserSync.init({
         server: config.BuildPath
     });
-
-    gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['styles','assets2build']);
-    gulp.watch(config.SrcPath+"templates/*.twig", ['swig']);
-    gulp.watch(config.SrcPath+"datas/**/*.json", ['swig']);
-    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
-    gulp.watch(config.SrcPath+config.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
-    gulp.watch(config.SrcPath+"**/*.html", ['html2build']);
-    gulp.watch(config.SrcPath+"**/*.{css,js}", ['assets2build']);
+// console.log('SCSS PASS' + config.sassPath);
+    gulp.watch(config.sassPath+"/**/*.scss", ['styles','assets2build']);
+    gulp.watch(config.SrcPath+"templates/*.njk", ['prototype','bundle-assets']);
+    gulp.watch(config.SrcPath+"pages/**/*.md", ['prototype','bundle-assets']);
+    gulp.watch(config.SrcPath+"datas/**/*.json", ['prototype','bundle-assets']);
+    //gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+    // gulp.watch(config.SrcPath+config.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
+    //gulp.watch(config.SrcPath+"**/*.html", ['html2build']);
+    //gulp.watch(config.SrcPath+"**/*.{css,js}", ['assets2build']);
 });
-
-
 
 // ## Sass-watch
 gulp.task('sass-watch', ['styles'], function () {
     gulp.watch(config.SrcPath+config.sassPath+"/**/*.scss", ['styles']);
 });
-
 
 // ## Default Task
 gulp.task('default', ['styles','bundle-assets','images2build'], function () {
