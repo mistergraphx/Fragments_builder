@@ -24,11 +24,11 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
             // PostCSS
             .pipe(postcss([
           			require("autoprefixer")(config.autoprefixer),
-                require("css-mqpacker")(config.mqpacker)
+                // require("css-mqpacker")(config.mqpacker)
     	        ]))
-            .pipe(sourcemaps.write('./', {
+            .pipe(sourcemaps.write(config.sourcemaps.path, {
       				//includeContent: false,
-      				sourceRoot: '../_scss',
+      				sourceRoot: config.sourcemaps.sourceRoot,
       				destPath: config.bundleConfig.dest ,
       				//sourceMappingURLprefix: config.bundleConfig.dest + 'assets/css'
       			}))
@@ -37,6 +37,6 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
             //.pipe(gulp.dest(project.DevPath+project.cssPath))  // /!\ Attention on copie en Dev alors que Autoprefixer et combine mediaQueries ne sont pas passés
             .pipe(gulp.dest(config.SrcPath + _CSS_DIR))
             .pipe(browserSync.stream())
-            .pipe(plugins.notify('Sass Files Compiled'));
+            // .pipe(plugins.notify('Sass Files Compiled'));
     };
 };

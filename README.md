@@ -97,13 +97,14 @@ Exemple :
 
 * _BUILD/
 * _src/
-    *	_scss/
     * 	assets/
+        *	_scss/
         *	css/
         *	fonts/
         *	images/
         *	js/
     * 	datas/ : *Dossier des fichiers `json` des datas des templates swig*
+    *   pages/ :
     * 	templates/ : *Dossier des templates swig*
         *	_layouts/
         *	_partials/

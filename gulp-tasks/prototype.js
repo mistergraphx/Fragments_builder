@@ -18,6 +18,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   // https://www.npmjs.com/package/nunjucks-markdown
   // https://www.npmjs.com/package/gulp-marked [deprecated] cd gulp-markdown
   // On utilise marked directement
+  // Une alternative envisageable https://www.npmjs.com/package/showdown
   var marked = require('marked');
   // https://www.npmjs.com/package/gulp-data
   var data = require('gulp-data');
@@ -49,7 +50,9 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
 
   FileSystemLoader([searchPaths], [opts])
   */
-  var loader = new nunjucks.FileSystemLoader(config.nunjuks.searchPaths);
+  var loader = new nunjucks.FileSystemLoader(config.nunjuks.searchPaths,{
+    noCache : true
+  });
 
   function getJSONDataFile(filePath){
       if(fs.existsSync(filePath))

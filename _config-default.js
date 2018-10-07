@@ -13,7 +13,7 @@ module.exports = {
   // Plugins options
   sass: { // https://github.com/sass/node-sass#options
     errLogToConsole: true,
-    outputStyle: 'nested', // nested, expanded, compact, compressed
+    outputStyle: 'compact', // nested, expanded, compact, compressed
     includePaths: []
   },
   autoprefixer:{
@@ -24,7 +24,8 @@ module.exports = {
     sort: true
   },
   sourcemaps:{
-      path: ''
+      path: './',
+      sourceRoot: '../_scss'
   },
   svgSprite: {
     sourcesPath: _SRC_PATH + 'assets/svg/',
@@ -64,8 +65,11 @@ module.exports = {
   },
   nunjuks:{
       defaultTemplateDir: _SRC_PATH + _TEMPLATES_DIR,
-      searchPaths: [_SRC_PATH + _TEMPLATES_DIR],
-      templateExt: '.njk',
+      searchPaths: [
+        _SRC_PATH + _TEMPLATES_DIR,
+        _SRC_PATH + _IMG_DIR
+      ],
+      templateExt: '.njk'
   },
   bundleConfig:{
         dest: '',
