@@ -137,7 +137,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
 
                 // Nunjuk.config pour les partials utilisées dans le content
                 nunjucks.configure(config.templateDir);
-                var compile = new nunjucks.Environment();
+                var compile = new nunjucks.Environment(loader);
 
                 // On traite les data avec nunjuks.renderString
                 // On applique le rendu nunjuk (data , partials) au content
