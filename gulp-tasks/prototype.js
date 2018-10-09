@@ -118,10 +118,11 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 data = _.merge({},data, {
                     bundle: getJSONDataFile(datasPath + config.bundleConfig.fileName + '.json'),
                     app : getJSONDataFile(datasPath + 'app.json'),
-                    test: {
-                      bundleFileName: getJSONDataFile(datasPath + config.bundleConfig.fileName + '.json'),
-                      some: ['elements','elements']
-                    }
+                    locals : getJSONDataFile(datasPath + 'locals.json'),
+                    // test: {
+                    //   bundleFileName: getJSONDataFile(datasPath + config.bundleConfig.fileName + '.json'),
+                    //   some: ['elements','elements']
+                    // }
                     //summary: buildIndex(datasPath,'page')
                 });
                 // On extrait et sépare entete/contenu
