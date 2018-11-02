@@ -80,6 +80,7 @@ _BASE_PATH = _PROJECTS_PATH + _PROJECT + '/' ;
 _SRC_DIR = "_src/";
 _SRC_PATH = _BASE_PATH + _SRC_DIR;
 _BUILD_DIR = "_BUILD/";
+_BUILD_PATH = _BASE_PATH + _BUILD_DIR;
 _JS_DIR = "assets/js/";
 _CSS_DIR = "assets/css/";
 _IMG_DIR = "assets/images/";
@@ -219,6 +220,14 @@ gulp.task('assets2build', function() {
 
 
 // browser-sync task for starting the server.
+/*
+browserSync.init({
+    open: 'external',
+    host: 'myproject.local',
+    proxy: 'myproject.local', // or project.dev/app/
+    port: 3000
+});
+*/
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
