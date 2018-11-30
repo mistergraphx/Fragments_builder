@@ -4,10 +4,10 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
 ## Fonctionalitées
 
-- Pré-processeur css Sass et libsass
-- Swig/twig templates
+- Pré/Post processeur css (libsass, Autoprefixer)
+- Template engine Nunjuks templates
 - Creation de bundles html/js/css minimisé et optimisés
-- Traitement optimisation des images, creation des icons, favicons, mobile
+- Création de sprites svg
 
 ## Structure
 
@@ -25,64 +25,15 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
 Main Tasks :
 
-*   `gulp --project=PROJECT_NAME`  - Tache par defaut : lib-sass, auto-prefixer, bundle assets
-*   `gulp prototype --project=PROJECT_NAME` - Live reload, swig, libsass
-
-Sub Tasks :
-
-*   `gulp bundle-assets --project=PROJECT_NAME` -
-*   `gulp autoprefixer --project=PROJECT_NAME` -
-*   `gulp combineMQ --project=PROJECT_NAME` -
-*   `gulp swig --project=PROJECT_NAME` -
-*   `gulp fontello --project=PROJECT_NAME` -
-*   `gulp image-optim --project=PROJECT_NAME` - Run optimize image tasks
-*   `gulp image-resize --project=PROJECT_NAME` -
-*   `gulp image-responsives --project=PROJECT_NAME` -
-
+*   `gulp --project=PROJECT_NAME`  - Tache par defaut : [Styles] lib-sass, postCss auto-prefixer, bundle assets
+*   `gulp static-site --project=PROJECT_NAME` - Live reload, nunjuks, libsass
+*   `gulp config --project` - Retourne la config actuelle du projet
 
 ### Installation
 
-Pour installer node et le mettre a jour facilement utiliser
-de préférence nvm (node version manager), via Brew.
+Pré-requis :
 
-    sudo npm install
-
-### Update
-
-###
-
-### Mettre a jour les nodes modules :
-
-```
-cd project_folder/
-sudo npm outdated
-sudo npm update gulp-sass
-```
-
-Pour forcer une update d'une version supérieure : exemple de 1.0x vers 2.0x
-en mettant a jour le package.json
-
-```
-sudo npm uninstall <module_name>
-sudo npm install <module_name>
-```
-
-### Upgrade et mise a jour du projet/package.json
-
-Installer npm-check-update pour gérer les mises a jour plus simplement en ligne de commande :
-
-https://www.npmjs.com/package/npm-check-updates
-
-```
-npm install -g npm-check-updates
-```
-
-Usage
-
-ncu -a : *Upgrade all* met a jour le package.json avec les dernières versions des modules
-ncu -u : met a jour les modules qui sont outdated
-
-on lance ensuite la maj de tout les modules et dépendances avec `sudo npm update`
+avoir intallé Node (> v6)
 
 
 ## Projets
@@ -103,26 +54,18 @@ Exemple :
         *	fonts/
         *	images/
         *	js/
-    * 	datas/ : *Dossier des fichiers `json` des datas des templates swig*
-    *   pages/ :
-    * 	templates/ : *Dossier des templates swig*
+    * 	datas/ : *Dossier des fichiers `json` des datas des templates*
+    *   pages/ : Fichers markdown de contenu
+    * 	templates/ : *Dossier des templates*
         *	_layouts/
         *	_partials/
-        *	index.twig
+        *	index.njk
 * app.js
 
 
 ## CHANGELOG
 
-version 0.1.0
+version 2.0.0
 
-Mise a jour des modules Node.js
-
-Gestion de configurations
-
-
-Sun Apr 10 19:17:39 2016
-:   *   Add html minification in swig task
-        gulp-htmlmin
-        https://www.npmjs.com/package/gulp-htmlmin
-    *   Swig dest in BuildPath
+- remplacement de swig par Nunjuks
+- Passage a postCss pour Autoprefixer et les post traitement css après libSass
