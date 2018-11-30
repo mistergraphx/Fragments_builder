@@ -69,3 +69,5 @@ version 2.0.0
 
 - remplacement de swig par Nunjuks
 - Passage a postCss pour Autoprefixer et les post traitement css après libSass
+- refonte de la configuration des projets
+- les noms des dossiers de travail, ainsi que les chemins passe en Globales
