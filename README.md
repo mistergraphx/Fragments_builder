@@ -5,9 +5,10 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 ## Fonctionalitées
 
 - Pré/Post processeur css (libsass, Autoprefixer)
-- Template engine Nunjuks templates
+- Template engine : Nunjuks templates
 - Creation de bundles html/js/css minimisé et optimisés
 - Création de sprites svg
+- Extraction de fichiers svg depuis une font svg (utilitaire de convertion pour passer progressivement aux sprites svg);
 
 ## Structure
 
