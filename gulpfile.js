@@ -152,6 +152,7 @@ gulp.task('styles', getTask('styles'));
 
 
 gulp.task('build-sprite', getTask('svgSprite'));
+gulp.task('fontblast', getTask('fontblast'));
 
 // ASSETS MANAGMENT
 gulp.task('bundle-assets', getTask('bundle-assets'));
