@@ -65,7 +65,16 @@ Exemple :
 
 ## CHANGELOG
 
-version 2.0.0
+v2.0.1
+
+- maj des dependances
+- [test] ajout de fontblast et d'une tache qui extrait les svg d'une font svg, afin de les réutiliser ensuite avec la tache sprite.
+Pour les projets basé sur fragments on récupère en plus la glyph depuis les settings scss $icon-set, afin de pouvoir renommer correctement les fichiers svg générés.
+
+
+
+
+v2.0.0
 
 - remplacement de swig par Nunjuks
 - Passage a postCss pour Autoprefixer et les post traitement css après libSass

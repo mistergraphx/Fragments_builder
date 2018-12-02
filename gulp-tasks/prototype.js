@@ -13,7 +13,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   var fs = require('fs');
   // Navigation builder
   // https://www.npmjs.com/package/gulp-nav
-  var nav= require('gulp-nav');
+  var nav = require('gulp-nav');
   // Markdown wrappers
   // https://www.npmjs.com/package/nunjucks-markdown
   // https://www.npmjs.com/package/gulp-marked [deprecated] cd gulp-markdown
