@@ -20,10 +20,9 @@ la génération de png ne fonctionne pas utilisant batik-rasterizer (mcosx 10.11
 @see https://github.com/eugene1g/font-blast-examples/blob/master/popular-fonts.js
 
 */
-module.exports = function(gulp, plugins, config, browserSync, onError) {
+module.exports = function(config) {
   let fontBlast = require('font-blast'),
       readline = require('readline'),
-      async = require('async'),
       fs = require('fs');
 
   var sourceFont = config.SrcPath + 'assets/fonts/seothemes-icons.svg',

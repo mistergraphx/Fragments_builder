@@ -2,7 +2,7 @@
 
 /** # Fragment Builder
 
-v 2.0.0
+v 2.0.1
 */
 
 // ------------------------------------------------*/
@@ -121,9 +121,7 @@ var ImagePath = config.ImagePath ;
 gulp.task('config', function(){
   return console.log('Config : ' + JSON.stringify(config, null, 4));
 });
-gulp.task('test', function(){
-  return console.log('Project : ' + argv.project );
-});
+
 
 // -----------------------------------------------------------
 // # TASKS
@@ -150,9 +148,12 @@ function getTask(task) {
 // Pre-pross/ Post : autoprefixing, …
 gulp.task('styles', getTask('styles'));
 
-
+// Svg Tool
 gulp.task('build-sprite', getTask('svgSprite'));
-gulp.task('fontblast', getTask('fontblast'));
+
+gulp.task('font-blast', function(){
+  return require('./gulp-tasks/fontblast')(config);
+});
 
 // ASSETS MANAGMENT
 gulp.task('bundle-assets', getTask('bundle-assets'));
