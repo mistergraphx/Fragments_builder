@@ -1,0 +1,13 @@
+{
+    "name":"__APP_NAME__",
+    "url":"",
+    "description":"__APP_DESCRPTION__",
+    "lang":"fr",
+    "images_path":"assets/images",
+    "WebFonts":"Open+Sans:300,400,800",
+    "assets": {
+        "css": ["assets/css/main.css"],
+        "js": ["assets/js/plugins.js",
+               "assets/js/main.js"]
+    }
+}

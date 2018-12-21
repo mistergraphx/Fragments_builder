@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="{{ app.lang }}">
+  <head>
+    {% include '../_partials/commons/head.njk' %}
+  </head>
+  <body class="page_{{ variable }}">
+    {% include "symbols.svg" %}
+    <!--[if lt IE 11]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div class="page">
+
+      {% include "../_partials/navs/nav_primary.njk" %}
+
+      <main class="content" role="main">
+        <div class="container">
+          {% block content %}{% endblock %}
+        </div>
+      </main>
+
+      <aside role="complementary">
+            {% block aside %}{% endblock %}
+        </aside>
+
+        <div id="extra">
+            {% block extra %}{% endblock %}
+        </div>
+        
+      <footer role="contentinfo">
+          <div class="container">
+              {% include '../_partials/commons/footer.njk' %}
+          </div>
+      </footer>
+    </div>
+  </body>
+</html>

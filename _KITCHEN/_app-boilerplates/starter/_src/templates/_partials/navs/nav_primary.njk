@@ -1,0 +1,35 @@
+<div class="top-nav">
+    <nav class='responsive-menu js-menumaker' role="primary">
+        <div class="head-desktop">
+            <a href="/" title="{{ app.name }}">
+              <div class="brand">{{ app.name }}</div>
+              <div class="baseline">{{ app.slogan }}</div>
+            </a>
+        </div>
+        <div class="head-mobile">
+          <button class="mobile-button">
+            <span class="mobile-button_text">Navigation</span>
+          </button>
+          <div class="brand">{{ app.name }}</div>
+          <div class="baseline">{{ app.slogan }}</div>
+        </div>
+        <div class="menu-container">
+          <ul>
+          {%- for sibling in nav.root.siblings %}
+              <li><a href="{{app.url}}{{ sibling.href }}" >{{ sibling.title }}</a></li>
+          {%- endfor %}
+           {%- for sibling in nav.siblings %}
+              <li><a href="{{app.url}}{{ sibling.href }}" >{{ sibling.title }}</a>
+              {%- if sibling.children|length  %}
+                  <ul>
+                      {%- for child in sibling.children %}
+                      <li><a href="{{app.url}}{{child.href}}">{{child.title}}</a></li>
+                      {%- endfor %}
+                  </ul>
+              {%- endif %}
+              </li>
+          {%- endfor %}
+          </ul>
+        </div>
+    </nav>
+</div>

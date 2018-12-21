@@ -1,0 +1,18 @@
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<meta name="description" content="{{description}}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{# <!-- WebFonts --> #}
+<link href='http://fonts.googleapis.com/css?family={{ app.WebFonts }}' rel='stylesheet' type='text/css'>
+
+
+
+{# <!-- Page styles --> #}
+{% for key,value in bundle %}
+    {{value.styles|safe}}
+{% endfor %}
+
+{% for key,value in bundle %}
+    {{value.scripts|safe}}
+{% endfor %}

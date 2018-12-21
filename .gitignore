@@ -1,22 +1,26 @@
 .sass-cache/**
+.svn
 
-/node_modules/**
+node_modules/**
 
-/_EXTENSIONS/**
-!/_EXTENSIONS/readme.md
+_EXTENSIONS/**
+!_EXTENSIONS/readme.md
 
-/_FRAMEWORKS/**
-!/_FRAMEWORKS/readme.md
+_FRAMEWORKS/**
+!_FRAMEWORKS/readme.md
 
-/_JS_LIBS/**
-!/_JS_LIBS/readme.md
+_JS_LIBS/**
+!_JS_LIBS/readme.md
 
-/_KITCHEN/**
+_KITCHEN/*
 !_KITCHEN/readme.md
-!/_KITCHEN/_app-boilerplates/starter
+!_KITCHEN/_app-boilerplates/
+!_KITCHEN/_app-boilerplates/starter
+!_KITCHEN/_app-boilerplates/starter/**
 
-/_MATERIALS/**
-!/_MATERIALS/readme.md
+
+_MATERIALS/**
+!_MATERIALS/readme.md
 
 *.scssc
 .DS_Store
