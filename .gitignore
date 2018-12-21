@@ -13,7 +13,7 @@
 
 /_KITCHEN/**
 !_KITCHEN/readme.md
-!/_KITCHEN/_app-boilerplates/basic_prototype
+!/_KITCHEN/_app-boilerplates/starter
 
 /_MATERIALS/**
 !/_MATERIALS/readme.md

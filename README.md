@@ -6,21 +6,29 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
 - Pré/Post processeur css (libsass, Autoprefixer)
 - Template engine : Nunjuks templates
-- Creation de bundles html/js/css minimisé et optimisés
+- Creation de bundles html/js/css minifiés et optimisés suivant l'environnement
 - Création de sprites svg
 - Extraction de fichiers svg depuis une font svg (utilitaire de convertion pour passer progressivement aux sprites svg);
 
 ## Structure
 
-* _EXTENSIONS/ : dossier du framework personnel (des modules, outils, fonctions utilisables dans plusieurs projets différents.
+* _EXTENSIONS/ : dossier du framework personnel (des modules, outils, fonctions utilisables dans plusieurs projets différents).
 
-* _FRAMEWORKS/ : dossiers des frameworks vendeurs, maintenus ailleurs (bootstrap, bourbon, ...)
+* _FRAMEWORKS/ : dossiers des frameworks vendeurs, libs scss, maintenus ailleurs (bootstrap, bourbon, susy ...), et que vous partagez dans plusieurs projets.
+
+* _JS_LIBS/ : idem mais pour les libs js
+
+* _MATERIALS/ : resources svg, icons, templates
 
 * _KITCHEN/ : dossier de travail des projets
 
 * gulp-tasks/ : dossier des taches gulp.
 
 * gulpfile.js : le gestionnaire de taches
+
+*Cette structure est celle que j'utilise, si cette organisation de dossiers, ne vous conviens pas, il est tout à fait possible de l'adapter à vos besoins, tous les chemins et noms de dossiers étant personnalisables.*
+
+
 
 ## Utilisation
 
@@ -43,6 +51,7 @@ git clone https://github.com/mistergraphx/Fragments_builder.git
 # Install required node modules
 npm install
 ```
+
 
 
 ## Projets
