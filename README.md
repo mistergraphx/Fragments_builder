@@ -32,9 +32,17 @@ Main Tasks :
 
 ### Installation
 
-Pré-requis :
+**Pré-requis : Node (> v6)**
 
-avoir intallé Node (> v6)
+```shell
+# in your working directory,localhost folder create a folder for the Builder
+# ex: _FACTORY
+cd ~/Sites/_FACTORY
+# Get the folder structure and tasks
+git clone https://github.com/mistergraphx/Fragments_builder.git
+# Install required node modules
+npm install
+```
 
 
 ## Projets
@@ -71,9 +79,6 @@ v2.0.1
 - maj des dependances
 - [test] ajout de fontblast et d'une tache qui extrait les svg d'une font svg, afin de les réutiliser ensuite avec la tache sprite.
 Pour les projets basé sur fragments on récupère en plus la glyph depuis les settings scss $icon-set, afin de pouvoir renommer correctement les fichiers svg générés.
-
-
-
 
 v2.0.0
 
