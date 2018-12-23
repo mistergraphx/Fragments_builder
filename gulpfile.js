@@ -152,7 +152,7 @@ gulp.task('styles', getTask('styles'));
 gulp.task('build-sprite', getTask('svgSprite'));
 
 gulp.task('font-blast', function(){
-    var explodeFont = require('./gulp-tasks/fontblast')(config);
+    var explodeFont = require('./gulp-tasks/fontblast')(config.fontblast);
     return explodeFont();
 });
 

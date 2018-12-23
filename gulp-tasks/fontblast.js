@@ -20,15 +20,18 @@ la génération de png ne fonctionne pas utilisant batik-rasterizer (mcosx 10.11
 @see https://github.com/eugene1g/font-blast-examples/blob/master/popular-fonts.js
 
 */
+
+
 var svgFont2svgFiles = function(config) {
 
-  let fontBlast = require('font-blast')
+  let fontBlast = require('font-blast'),
       readline = require('readline'),
       fs = require('fs');
 
-  var sourceFont = config.SrcPath + 'assets/fonts/icons/font/icons.svg',
-      glyph = config.SrcPath + 'assets/fonts/icons/glyph.scss',
-      destPath = config.SrcPath + 'assets/svg/';
+
+  var sourceFont = config.sourceFont,
+      glyph = config.glyph,
+      destPath = config.destPath;
 
   var contents = fs.readFileSync(glyph, 'utf8');
   var definitionsLines = contents.match(/([\w-]*?):.*?'\\(.*?)',/g),
@@ -44,7 +47,7 @@ var svgFont2svgFiles = function(config) {
       async function convert(){
            fontBlast(sourceFont, destPath, {filenames: convertFilenames});
       }
-      async function done(){
+      async function clean(){
           fs.unlink(destPath + 'source-font.ttf', ()=>{});
           fs.unlink(destPath + 'verify.html', ()=>{});
           console.log('Nettoyage des fichiers de verification sourceFont.ttf , verify générés par fontBlast');
@@ -52,7 +55,9 @@ var svgFont2svgFiles = function(config) {
 
       return async function(){
         await convert();
-        await done();
+        if(config.cleanAfter === true){
+            await clean();
+        }
         return false;
       }
 };

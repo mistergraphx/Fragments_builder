@@ -27,6 +27,12 @@ module.exports = {
       path: './',
       sourceRoot: '../_scss'
   },
+  fontblast:{
+    sourceFont: _SRC_PATH + 'assets/fonts/icons/font/icons.svg',
+    glyph: _SRC_PATH + 'assets/fonts/icons/glyph.scss',
+    destPath: _BUILD_PATH + 'fontblast/',
+    cleanAfter: false
+  },
   svgSprite: {
     sourcesPath: _SRC_PATH + 'assets/svg/',
     spriteDest: _BASE_PATH ,
