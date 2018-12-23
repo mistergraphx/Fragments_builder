@@ -152,7 +152,8 @@ gulp.task('styles', getTask('styles'));
 gulp.task('build-sprite', getTask('svgSprite'));
 
 gulp.task('font-blast', function(){
-  return require('./gulp-tasks/fontblast')(config);
+    var explodeFont = require('./gulp-tasks/fontblast')(config);
+    return explodeFont();
 });
 
 // ASSETS MANAGMENT

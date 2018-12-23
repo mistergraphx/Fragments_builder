@@ -20,18 +20,19 @@ la génération de png ne fonctionne pas utilisant batik-rasterizer (mcosx 10.11
 @see https://github.com/eugene1g/font-blast-examples/blob/master/popular-fonts.js
 
 */
-module.exports = function(config) {
-  let fontBlast = require('font-blast'),
+var svgFont2svgFiles = function(config) {
+
+  let fontBlast = require('font-blast')
       readline = require('readline'),
       fs = require('fs');
 
-  var sourceFont = config.SrcPath + 'assets/fonts/seothemes-icons.svg',
-      glyph = config.SrcPath + 'assets/fonts/glyph.scss',
-      destPath = config.SrcPath + 'assets/';
+  var sourceFont = config.SrcPath + 'assets/fonts/icons/font/icons.svg',
+      glyph = config.SrcPath + 'assets/fonts/icons/glyph.scss',
+      destPath = config.SrcPath + 'assets/svg/';
 
-      var contents = fs.readFileSync(glyph, 'utf8');
-      var definitionsLines = contents.match(/([\w-]*?):.*?'\\(.*?)',/g),
-          convertFilenames = {};
+  var contents = fs.readFileSync(glyph, 'utf8');
+  var definitionsLines = contents.match(/([\w-]*?):.*?'\\(.*?)',/g),
+      convertFilenames = {};
 
       definitionsLines.forEach(function (line) {
         var charName = line.match(/([\w\-].*?):/),
@@ -51,6 +52,9 @@ module.exports = function(config) {
 
       return async function(){
         await convert();
-        await done()
+        await done();
+        return false;
       }
 };
+
+module.exports = svgFont2svgFiles;
