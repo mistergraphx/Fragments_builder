@@ -91,7 +91,7 @@ module.exports = {
     copy: [
         {
             src: [
-                _SRC_PATH + 'assets/css/*.css.map',
+                _SRC_PATH + 'assets/css/*.{map}',
                 _SRC_PATH + '**.html',
                 _SRC_PATH + 'assets/fonts/**/*.{eot,svg,ttf,woff,woff2}'
             ],
