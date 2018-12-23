@@ -17,7 +17,6 @@ var lazypipe = require('lazypipe');
 var browserSync = require('browser-sync').create();
 var reload      = browserSync.reload;
 
-var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
 // Get args from command line
 var argv = require('minimist')(process.argv.slice(2));
