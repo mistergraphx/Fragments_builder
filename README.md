@@ -4,11 +4,25 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
 ## Fonctionalitées
 
-- Pré/Post processeur css (libsass, Autoprefixer)
-- Template engine : Nunjuks templates
-- Creation de bundles html/js/css minifiés et optimisés suivant l'environnement
-- Création de sprites svg
-- Extraction de fichiers svg depuis une font svg (utilitaire de convertion pour passer progressivement aux sprites svg);
+### Pré/Post processeur css
+
+(libsass, Autoprefixer)
+
+### Jekill like pages
+
+Template engine : Nunjuks templates
+
+### Bundler
+
+Creation de bundles html/js/css minifiés et optimisés suivant l'environnement
+
+
+### Svg Utils
+
+Création de sprites svg
+
+Extraction de fichiers svg depuis une font svg (utilitaire de convertion pour passer progressivement aux sprites svg);
+
 
 ## Structure
 
@@ -26,21 +40,35 @@ Outil de prototypage , pre-processing, build system avec Node.js et gulp
 
 * gulpfile.js : le gestionnaire de taches
 
-*Cette structure est celle que j'utilise, si cette organisation de dossiers, ne vous conviens pas, il est tout à fait possible de l'adapter à vos besoins, tous les chemins et noms de dossiers étant personnalisables.*
+## Projet
 
-## Premier projet
+Le projet est le seul argument passé au taches, c'est ce qui défini le chemin ou d'ou sera chargé le fichier app.js permettant de modifier les paramètres par défaut (cf. _config-default.js).
 
+Créer un dossier et un fichier app.js.
 
-
+```shell
+# Nouveau projet
+cp -r _KITCHEN/_app-boilerplates/starter _KITCHEN/project_name
+```
 
 ## Utilisation
 
-Main Tasks :
+Changer l'environnement pour les bundles générés
 
-*   `gulp --project=PROJECT_NAME`  - Tache par defaut : [Styles] lib-sass, postCss auto-prefixer, bundle assets
+```
+export NODE_ENV=[production,development]
+```
+
+
+###  Tache par defaut
+
+`gulp --project=PROJECT_NAME`  
+  [Styles] lib-sass, postCss auto-prefixer, bundle assets
+
+
 *   `gulp static-site --project=PROJECT_NAME` - Live reload, nunjuks, libsass
-*   `gulp config --project` - Retourne la config actuelle du projet
-
+*   `gulp config --project=PROJECT_NAME` - Retourne la config actuelle du projet
+*   `gulp font-blast --project=PROJECT_NAME` - Extrait
 ### Installation
 
 **Pré-requis : Node (> v6)**
@@ -55,17 +83,12 @@ git clone https://github.com/mistergraphx/Fragments_builder.git
 npm install
 ```
 
-
-
 ## Projets
 
 Les projets sont stockés dans _KITCHEN/
 
-Un app-boileplate fourni la base ci dessous.
 
 ### Structure du projet
-
-Exemple :
 
 * _BUILD/
 * _src/
@@ -75,13 +98,23 @@ Exemple :
         *	fonts/
         *	images/
         *	js/
-    * 	datas/ : *Dossier des fichiers `json` des datas des templates*
-    *   pages/ : Fichers markdown de contenu
-    * 	templates/ : *Dossier des templates*
+    * 	datas/ : optionnel *Dossier des fichiers `json` optionnel de datas pour les pages*
+    *   pages/ : optionnel Fichers markdown de contenu jekill like pages
+    * 	templates/ optionnel : *Dossier des templates*
         *	_layouts/
         *	_partials/
         *	index.njk
 * app.js
+
+## Testing, Linting :
+
+```
+# Additionellement installer lighthouse
+npm install -g lighthouse
+cd _KITCHEN/mon_projet/
+lighthouse http://mon_projet.local [--view: ouvre directement dans le navigateur le rapport .]
+```
+
 
 
 ## CHANGELOG
