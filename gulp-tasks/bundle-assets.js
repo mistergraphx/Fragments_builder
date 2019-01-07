@@ -18,7 +18,10 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
     return function(){
         gulp.src(config.BasePath+'app.js') // Load Bundle.config file [bundle,copy]
             .pipe(plugins.bundleAssets())
-            .pipe(plugins.bundleAssets.results(config.SrcPath+'datas/')) // arg is destination of bundle.result.json
+            .pipe(plugins.bundleAssets.results({
+                dest: config.SrcPath+'datas/', // destination of bundle.result.json
+                pathPrefix: config.bundleConfig.pathPrefix
+            }))
             .pipe(plugins.cached('bundle-assets'))
             .pipe(gulp.dest(config.bundleConfig.dest))
             .pipe(browserSync.stream())
