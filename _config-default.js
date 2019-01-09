@@ -56,7 +56,12 @@ module.exports = {
       }
     }
   },
+  // https://marked.js.org/#/USING_ADVANCED.md
   markedConfig: {
+    // highlight: function (code) {
+    //     return require('highlight.js').highlightAuto(code).value;
+    // },
+      baseUrl: null, // A prefix url for any relative link
       gfm: true, // Enable GitHub flavored markdown.
       tables: true, // Enable GFM tables. This option requires the gfm option to be true.
       breaks: false, // Enable GFM line breaks. This option requires the gfm option to be true.
@@ -70,17 +75,22 @@ module.exports = {
       delimiters:'---' // Default
   },
   nunjuks:{
-      defaultTemplateDir: _SRC_PATH + _TEMPLATES_DIR,
+      defaultTemplatesPath: _SRC_PATH + _TEMPLATES_DIR,
       searchPaths: [
         _SRC_PATH + _TEMPLATES_DIR,
         _SRC_PATH + _IMG_DIR
       ],
-      templateExt: '.njk'
+      templateExt: '.njk',
+      options: {
+        autoescape:false,
+        throwOnUndefined: true
+      }
   },
   bundleConfig:{
         dest: '',
         // précéder le path de l'url de prod pour que les chemins soit correct
-        // y compris quand on parcours l'arborescence des pages
+        // y compris quand on parcour l'arborescence des pages
+        // pathPrefix: 'http:localhost:3000/',
         pathPrefix: '/',
         fileName: 'bundle.result'
   },

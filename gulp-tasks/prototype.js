@@ -40,21 +40,26 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   // https://www.npmjs.com/package/gulp-htmlmin
   var htmlmin = require('htmlmin');
 
-  /* Nunjuks loader
-
-   On cree un loader pour l'héritages des templates
-   soit relatif au premier niveau du template demandé
-   et non a la racine du projet
-
-   https://mozilla.github.io/nunjucks/fr/api.html#filesystemloader
-
-  FileSystemLoader([searchPaths], [opts])
-  */
+  // Nunjuks loader
+  // Configurer les options depuis la config
+  // modifiable/extensible depuis le projet
+  nunjucks.configure(config.nunjuks.options);
+  // Créer un loader pour que l'héritages des templates
+  // soit relatif au premier niveau du template demandé
+  // et non a la racine du projet
+  //
+  // https://mozilla.github.io/nunjucks/fr/api.html#filesystemloader
+  //
+  // FileSystemLoader([searchPaths], [opts])
   var loader = new nunjucks.FileSystemLoader(config.nunjuks.searchPaths,{
     noCache : true
   });
+  let datasPath = config.SrcPath + _DATAS_DIR;
 
-  function getJSONDataFile(filePath){
+  // @param file - nom du fichier sans ext
+  // @return Object
+  function getDatas(file){
+      var filePath = datasPath + file + '.json';
       if(fs.existsSync(filePath))
           return JSON.parse(fs.readFileSync(filePath));
       else
@@ -62,7 +67,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   }
 
     var summaryJSON = {} ;
-
+    // @unused
     function buildIndex(baseDir, objectType){
         var counter = 0 ;
         files = fsRecurs(baseDir);
@@ -88,25 +93,27 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
         return  summaryJSON;
     }
 
-    let datasPath = config.SrcPath + _DATAS_DIR;
+
 
     return function (){
         // Parse page dir and *.md files recursively
         gulp.src(config.SrcPath + _PAGES_DIR + '**/*.md')
             // Error Handler
-            // .pipe(plugins.plumber({
-            //     errorHandler: onError
-            // }))
+            .pipe(plugins.plumber({
+                errorHandler: onError
+            }))
             .pipe(data(function(file) {
+                // Global Data Object
                 var data = {};
-                var xtra = {};
+
                 if (file.data) {
                   data = _.merge({},file.data, data);
                   // or just data = file.data if you don't care to merge. Up to you.
                 }
                 // Y'a t'il un fichier json de datas supplémentaires a fournir
+                //
                 if(fs.existsSync(datasPath + path.basename(file.path,'.md') + '.json')) {
-                    data.datas = JSON.parse(fs.readFileSync(datasPath + path.basename(file.path,'.md') + '.json'));
+                    data.datas = getDatas(path.basename(file.path,'.md'));
                     console.log('YES : Json file found for :' + file.path);
                 }
                 else {
@@ -116,14 +123,9 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 // injecter les settings/datas disponibles ensuites dans les templates
                 // assets, locals,
                 data = _.merge({},data, {
-                    bundle: getJSONDataFile(datasPath + config.bundleConfig.fileName + '.json'),
-                    app : getJSONDataFile(datasPath + 'app.json'),
-                    locals : getJSONDataFile(datasPath + 'locals.json'),
-                    // test: {
-                    //   bundleFileName: getJSONDataFile(datasPath + config.bundleConfig.fileName + '.json'),
-                    //   some: ['elements','elements']
-                    // }
-                    //summary: buildIndex(datasPath,'page')
+                    bundle: getDatas(config.bundleConfig.fileName),
+                    app : getDatas('app'),
+                    locals : getDatas('locals')
                 });
                 // On extrait et sépare entete/contenu
                 // Extract/split file datas  extrac content|frontmatter
@@ -133,26 +135,23 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 // au premier niveau de file.data pour être correctements utilisées par gulp-wrap, gulp-nav
                 // et être propagées dans l'héritage des templates
                 data = _.merge({},data,frontmatter.data);
-                // merge xtra + frontmatter
-                // data = assignIn(data.environement, frontmatter.data);
 
-                // Nunjuk.config pour les partials utilisées dans le content
-                nunjucks.configure(config.templateDir);
+                // Charger le loader + environement pour les partials utilisées dans le content
                 var compile = new nunjucks.Environment(loader);
 
                 // On traite les data avec nunjuks.renderString
                 // On applique le rendu nunjuk (data , partials) au content
                 // on utilise gulp-wrap pour mettre a jour file.content
-                file.contents = new Buffer.from(compile.renderString(frontmatter.content.toString(), data));
+                render = compile.renderString(frontmatter.content.toString(), data);
+                file.contents = new Buffer.from(render);
 
-                marked.setOptions({
-                    highlight: function (code) {
-                        return require('highlight.js').highlightAuto(code).value;
-                    }
-                });
-
+                // Traiter le markdwon avec Marked
+                // Options/extensions Marked
                 marked(file.contents.toString(), config.markedConfig, function(err,data){
-                    file.contents = new Buffer.from(data);
+                    if(err){
+                      return console.log('Marked error in :' + file.path);
+                    }
+                    return file.contents = new Buffer.from(data);
                 });
 
                 return data;
@@ -161,12 +160,13 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
             .pipe(nav())
             // wrap
             .pipe(wrap(function(data) {
-                  var templatesPath = _BASE_PATH + _SRC_DIR + _TEMPLATES_DIR;
-                  if(fs.existsSync(templatesPath + data.layout + config.nunjuks.templateExt)) {
-                      var template = fs.readFileSync(templatesPath + data.layout + config.nunjuks.templateExt).toString();
+                  var templatesPath = config.nunjuks.defaultTemplatesPath,
+                      ext= config.nunjuks.templateExt;
+                  if(fs.existsSync(templatesPath + data.layout + ext)) {
+                      var template = fs.readFileSync(templatesPath + data.layout + ext).toString();
                       return template;
                   }else {
-                      return fs.readFileSync(templatesPath + 'page' + config.nunjuks.templateExt).toString();
+                      return fs.readFileSync(templatesPath + 'page' + ext).toString();
                   }
                 },
                 function(file){
@@ -183,7 +183,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
             ))
             .pipe(spy.obj(function(file) {
                 console.log('-------------------------');
-                console.log(file.data);
+                console.log(file.data.nav.siblings);
             }))
             .pipe(rename({
                 extname: ".html"
