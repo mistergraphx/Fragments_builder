@@ -1,0 +1,12 @@
+{% macro menuItem(item) %}
+<li>
+  <a href="{{app.url}}{{item.href}}">{{ item.title }}</a>
+    {% if item.children|length %}
+    <ul>
+        {% for item in item.children %}
+        {{ menuItem(item) }}
+        {% endfor %}
+    </ul>
+    {% endif %}
+</li>
+{% endmacro %}

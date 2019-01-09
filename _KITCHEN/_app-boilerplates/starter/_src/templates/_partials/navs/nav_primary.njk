@@ -13,21 +13,17 @@
           <div class="brand">{{ app.name }}</div>
           <div class="baseline">{{ app.slogan }}</div>
         </div>
+
         <div class="menu-container">
+          {% import "../../macros/menu.njk" as menu %}
           <ul>
-          {%- for sibling in nav.root.siblings %}
-              <li><a href="{{app.url}}{{ sibling.href }}" >{{ sibling.title }}</a></li>
-          {%- endfor %}
-           {%- for sibling in nav.siblings %}
-              <li><a href="{{app.url}}{{ sibling.href }}" >{{ sibling.title }}</a>
+           {%- for sibling in nav.root.siblings %}
+              <li class="home"><a href="{{app.url}}{{ sibling.href }}" >{{ sibling.title }}</a></li>
               {%- if sibling.children|length  %}
-                  <ul>
-                      {%- for child in sibling.children %}
-                      <li><a href="{{app.url}}{{child.href}}">{{child.title}}</a></li>
-                      {%- endfor %}
-                  </ul>
+                {%- for child in sibling.children %}
+                  {{ menu.menuItem(child) }}
+                {%- endfor %}
               {%- endif %}
-              </li>
           {%- endfor %}
           </ul>
         </div>
