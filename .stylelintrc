@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "max-empty-lines": 2,
+    "rule-empty-line-before": null,
+    "unit-whitelist": ["em", "rem", "%", "s"]
+  }
+}
