@@ -3,10 +3,13 @@
 */
 module.exports = function(gulp, plugins, config, browserSync, onError) {
   var fsRecurs = require('fs-readdir-recursive');
+  var through = require('through2');
   var util = require('util');
   var _ = require('lodash');
   var spy = require("through2-spy");
   var rename = require("gulp-rename");
+  // Error Handling
+  var PluginError = require('plugin-error');
   // https://nodejs.org/docs/latest/api/path.html#path_path_basename_path_ext
   var path = require('path');
   // https://nodejs.org/docs/latest/api/fs.html
@@ -22,11 +25,15 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   var marked = require('marked');
   // https://www.npmjs.com/package/gulp-data
   var data = require('gulp-data');
+
+  // @remove
   // Gulp-wrap permet d'assembler les data et les templates en appliquant au final render
   // Utilise consolidate, ce qui peut fausser la definitions des path
   // https://www.npmjs.com/package/consolidate
   // https://www.npmjs.com/package/gulp-wrap
-  var wrap = require('gulp-wrap');
+  // var wrap = require('gulp-wrap');
+  // var consolidate = require('consolidate');
+
   // https://www.npmjs.com/package/gulp-gray-matter
   // https://www.npmjs.com/package/gray-matter#options
   // On utilise gray-matter et non le plugin gulp
@@ -41,9 +48,6 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   var htmlmin = require('htmlmin');
 
   // Nunjuks loader
-  // Configurer les options depuis la config
-  // modifiable/extensible depuis le projet
-  nunjucks.configure(config.nunjuks.options);
   // Créer un loader pour que l'héritages des templates
   // soit relatif au premier niveau du template demandé
   // et non a la racine du projet
@@ -54,6 +58,22 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   var loader = new nunjucks.FileSystemLoader(config.nunjuks.searchPaths,{
     noCache : true
   });
+  // Rnvironnement Configurer les options depuis la config
+  // modifiable/extensible depuis le projet
+  var njk = new nunjucks.Environment(loader,config.nunjuks.options);
+  // Filters
+  // https://www.npmjs.com/package/slug
+  var slug = require("slug");
+  njk.addFilter('slug', function(str,options) {
+      return slug(str);
+  });
+  // add nunjucks to requires so filters can be
+// added and the same instance will be used inside the render method
+// consolidate.requires.nunjucks = nunjucks.configure();
+// consolidate.requires.nunjucks.addFilter('slug', function(str,options) {
+//     return slug(str);
+// });
+
   let datasPath = config.SrcPath + _DATAS_DIR;
 
   // @param file - nom du fichier sans ext
@@ -74,12 +94,10 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
         files.map(function(url,ind,arr){
             //current = fs.readFileSync(pageDir + url, 'utf-8')
             file = matter.read(baseDir + url);
-
             //url =  path.dirname(file.path).replace(config.pageDir, '') + path.basename(file.path,'.md') + '.html';
             // slice enlève le dernier / présent dans
             url = path.dirname(file.path).replace(baseDir.slice(0,-1), '') + '/'+ path.basename(file.path,'.md') + '.html';
             //console.log(url);
-
            summaryJSON[objectType + '-' + counter] = {
                 'path': file.path,
                 'url': url,
@@ -93,36 +111,32 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
         return  summaryJSON;
     }
 
-
-
     return function (){
-        // Parse page dir and *.md files recursively
+        // Parse pages/**/*.md files recursively
         gulp.src(config.SrcPath + _PAGES_DIR + '**/*.md')
             // Error Handler
             .pipe(plugins.plumber({
                 errorHandler: onError
             }))
             .pipe(data(function(file) {
-                // Global Data Object
-                var data = {};
+                // Env gulp Data Object
+                var env = {};
 
-                if (file.data) {
-                  data = _.merge({},file.data, data);
-                  // or just data = file.data if you don't care to merge. Up to you.
+                if (file.env) {
+                  data = _.merge({},file.env, data);
                 }
                 // Y'a t'il un fichier json de datas supplémentaires a fournir
-                //
                 if(fs.existsSync(datasPath + path.basename(file.path,'.md') + '.json')) {
-                    data.datas = getDatas(path.basename(file.path,'.md'));
+                    env.datas = getDatas(path.basename(file.path,'.md'));
                     console.log('YES : Json file found for :' + file.path);
                 }
                 else {
-                    data.datas = null;
+                    env.datas = null;
                     console.log('No Json file found for :' + file.path);
                 }
                 // injecter les settings/datas disponibles ensuites dans les templates
                 // assets, locals,
-                data = _.merge({},data, {
+                env = _.merge({},env, {
                     bundle: getDatas(config.bundleConfig.fileName),
                     app : getDatas('app'),
                     locals : getDatas('locals')
@@ -130,61 +144,65 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 // On extrait et sépare entete/contenu
                 // Extract/split file datas  extrac content|frontmatter
                 var frontmatter = matter.read(file.path);
-
+                // assigner tout de suite {{contents}}
+                env.contents = frontmatter.content.toString();
                 // Les datas du frontmatter doivent êtres accessibles
                 // au premier niveau de file.data pour être correctements utilisées par gulp-wrap, gulp-nav
                 // et être propagées dans l'héritage des templates
-                data = _.merge({},data,frontmatter.data);
-
-                // Charger le loader + environement pour les partials utilisées dans le content
-                var compile = new nunjucks.Environment(loader);
-
+                env = _.merge({},env,frontmatter.data);
                 // On traite les data avec nunjuks.renderString
                 // On applique le rendu nunjuk (data , partials) au content
                 // on utilise gulp-wrap pour mettre a jour file.content
-                render = compile.renderString(frontmatter.content.toString(), data);
-                file.contents = new Buffer.from(render);
-
+                rendered = njk.renderString(env.contents, env);
                 // Traiter le markdwon avec Marked
                 // Options/extensions Marked
-                marked(file.contents.toString(), config.markedConfig, function(err,data){
+                marked(rendered, config.markedConfig, function(err,res){
                     if(err){
                       return console.log('Marked error in :' + file.path);
                     }
-                    return file.contents = new Buffer.from(data);
+                    return env.contents = res;
                 });
 
-                return data;
+                return env;
             }))
             // Navigation construct
             .pipe(nav())
-            // wrap
-            .pipe(wrap(function(data) {
-                  var templatesPath = config.nunjuks.defaultTemplatesPath,
-                      ext= config.nunjuks.templateExt;
-                  if(fs.existsSync(templatesPath + data.layout + ext)) {
-                      var template = fs.readFileSync(templatesPath + data.layout + ext).toString();
-                      return template;
-                  }else {
-                      return fs.readFileSync(templatesPath + 'page' + ext).toString();
-                  }
-                },
-                function(file){
-                      //file.data = assignIn(file.data,{
-                      //    navigation: file.data.nav
-                      //});
-                      //console.log(file.data);
-                      return file.data;
-                  },{// Options : https://github.com/tj/consolidate.js/blob/master/lib/consolidate.js#L1118
-                      engine: 'nunjucks',
-                      nunjucksEnv: '',
-                      loader: loader // @see loader
-                  }
-            ))
-            .pipe(spy.obj(function(file) {
-                console.log('-------------------------');
-                console.log(file.data.nav.siblings);
-            }))
+            // Générer la page
+            .pipe(through.obj(function (file, enc, cb) {
+
+                if (file.isNull()) {
+                  cb(null, file);
+                  return;
+                }
+
+                if (file.isStream()) {
+                  cb(new PluginError('nunjucks', 'Streaming not supported'));
+                  return;
+                }
+                // Recupérer les gulp-data
+                var env = file.data;
+                //  reccupérer le template défini dans l'entete du fichier md sinon page
+                var templatesPath = config.nunjuks.defaultTemplatesPath,
+                    ext= config.nunjuks.templateExt;
+                if(fs.existsSync(templatesPath + env.layout + ext)) {
+                    var template = fs.readFileSync(templatesPath + env.layout + ext).toString();
+                }else{
+                    var template = fs.readFileSync(templatesPath + 'page' + ext).toString();
+                }
+
+                return njk.renderString(template,env,function (err, res) {
+            			if (err) return this.emit('error', new PluginError('nunjucks', err, { fileName: file.path }));
+            			file.contents = Buffer.from(res || '');
+            			this.push(file);
+            			cb();
+            		}.bind(this));
+
+            	})
+            )
+            // .pipe(spy.obj(function(file) {
+            //     console.log('-------------------------');
+            //     console.log('ENV', file.data);
+            // }))
             .pipe(rename({
                 extname: ".html"
             }))
