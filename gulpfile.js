@@ -1,37 +1,33 @@
-// 'use strict';
-
-/** # Fragment Builder
-
-v 2.0.1
-*/
+"use strict";
+// # Fragment Builder
+//
+// v2.0.2
 
 // ------------------------------------------------*/
 // REQUIRE
 // ------------------------------------------------*/
-
 var gulp    = require('gulp');
-var gutil   = require('gulp-util');
-var del     = require('del');
-var lazypipe = require('lazypipe');
+//var gutil   = require('gulp-util'); // @deprecated
+
+var del     = require('del'); // @unused
+var lazypipe = require('lazypipe'); // @unused
 
 var browserSync = require('browser-sync').create();
 var reload      = browserSync.reload;
 
 var sourcemaps = require('gulp-sourcemaps');
+
 // Get args from command line
 var argv = require('minimist')(process.argv.slice(2));
 
 var imageResize = require('gulp-image-resize');
 //var pngcrush  = require('imagemin-pngcrush');
 
-
-
-/** # Auto chargement des plugins
-
-
-@requires       gulp-load-plugin
-@see            https://www.npmjs.com/package/gulp-load-plugins
-*/
+// Auto chargement des plugins
+// @deprecated
+// @todo           revenir au require et savoir ce que l'on charge quand on le charge
+// @requires       gulp-load-plugin
+// @see            https://www.npmjs.com/package/gulp-load-plugins
 var gulpLoadPlugins = require('gulp-load-plugins');
 var plugins = gulpLoadPlugins({
         camelize: true,
@@ -40,18 +36,18 @@ var plugins = gulpLoadPlugins({
 
 var $ = plugins; //shortcut
 
-/**
-
-
-
-*/
-
+// Error handling, notifications
+// https://www.npmjs.com/package/gulp-notify
+// https://github.com/mikaelbr/node-notifier
+// https://github.com/gulpjs/fancy-log
+// https://github.com/chalk/chalk
 var onError = function(err) {
+
     $.notify.onError({
-        title:    "Gulp Task",
+        title:    "<%= error.plugin %>" ,
         subtitle: "ERROR !!",
         icon:     "./gulp-tasks/images/warning.png",
-        message:  "Error: <%= error.message %>",
+        message:  "<%= error.message %>",
         sound:    "Basso",
         wait: true
     })(err);
@@ -71,34 +67,31 @@ var assignIn = require('lodash.assignin'),
 // # Projects Configuration
 // -----------------------------------------------------------
 // Globals
-// Base PROJECTS folder
+global._PROJECTS_PATH = "./_KITCHEN/";
+global._PROJECT = argv.project ;
+global._BASE_PATH = _PROJECTS_PATH + _PROJECT + '/' ;
+global._SRC_DIR = "_src/";
+global._SRC_PATH = _BASE_PATH + _SRC_DIR;
+global._BUILD_DIR = "_BUILD/";
+global._BUILD_PATH = _BASE_PATH + _BUILD_DIR;
+global._JS_DIR = "assets/js/";
+global._CSS_DIR = "assets/css/";
+global._IMG_DIR = "assets/images/";
+global._SASS_DIR = "assets/_scss/";
+global._PAGES_DIR = "pages/";
+global._DATAS_DIR = "datas/";
+global._TEMPLATES_DIR = "templates/";
 
-_PROJECTS_PATH = "./_KITCHEN/";
-_PROJECT = argv.project ;
-_BASE_PATH = _PROJECTS_PATH + _PROJECT + '/' ;
-_SRC_DIR = "_src/";
-_SRC_PATH = _BASE_PATH + _SRC_DIR;
-_BUILD_DIR = "_BUILD/";
-_BUILD_PATH = _BASE_PATH + _BUILD_DIR;
-_JS_DIR = "assets/js/";
-_CSS_DIR = "assets/css/";
-_IMG_DIR = "assets/images/";
-_SASS_DIR = "assets/_scss/";
-_PAGES_DIR = "pages/";
-_DATAS_DIR = "datas/";
-_TEMPLATES_DIR = "templates/";
-
-/** # Project Loader
-
-Chargement du fichier de config passé en argument de la commande.
-
-`gulp task --project=project_name`
-
-@requires       minimist
-@see            https://www.npmjs.com/package/minimist
-@see            https://github.com/gulpjs/gulp/blob/master/docs/recipes/using-external-config-file.md
-@see            http://istrategylabs.com/2015/02/swept-up-in-the-stream-5-ways-isl-used-gulp-to-improve-our-process/
-*/
+// # Project Loader
+//
+// Chargement du fichier de config passé en argument de la commande.
+//
+// `gulp task --project=project_name`
+//
+// @requires       minimist
+// @see            https://www.npmjs.com/package/minimist
+// @see            https://github.com/gulpjs/gulp/blob/master/docs/recipes/using-external-config-file.md
+// @see            http://istrategylabs.com/2015/02/swept-up-in-the-stream-5-ways-isl-used-gulp-to-improve-our-process/
 
 // Default configuration
 var _config = require('./_config-default');
@@ -161,9 +154,6 @@ gulp.task('bundle-assets', getTask('bundle-assets'));
 // TEMPLATING
 gulp.task('prototype', getTask('prototype'));
 
-
-
-
 // IMAGES TOOLS
 gulp.task('image-touch-icons', getTask('img_touch-icons')); // Generate touch icons
 gulp.task('image-optim', getTask('img_image-optim')); // Optimize
@@ -171,13 +161,10 @@ gulp.task('image-resize', getTask('img_image-resize')); // Resize image to a max
 gulp.task('image-responsives', getTask('img_responsives')); // Generate images variations for different brealpoints
 gulp.task('image-galleries', getTask('img_galleries')); // Generate thumbs
 
-
-
-
 // Utils
 
 gulp.task('html2build', function() {
-    gulp.src(SrcPath+'**/*.html')
+    gulp.src(_SRC_PATH + '**/*.html')
         .pipe($.plumber({
                 errorHandler: onError
         }))
@@ -241,8 +228,6 @@ gulp.task('browser-sync', function() {
 // ---------------------------------------------------------------------------
 // # COMMANDS
 // ---------------------------------------------------------------------------
-
-
 /** # Build static site
  *
  * Génère un site static
