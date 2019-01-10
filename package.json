@@ -1,6 +1,6 @@
 {
   "name": "fragment_builder",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Prototyping and webdesign tool",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "through2-spy": "^2.0.0"
   },
   "dependencies": {
-    "autoprefixer": "^9.4.3",
+    "autoprefixer": "^9.4.4",
     "browser-sync": "^2.26.3",
     "clean-css": "^4.2.1",
     "css-mqpacker": "^7.0.0",
@@ -52,10 +52,9 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.3",
     "gulp-svg-sprites": "^4.1.2",
-    "gulp-wrap": "^0.14.0",
     "htmlmin": "0.0.7",
     "lodash.assignin": "^4.2.0",
-    "marked": "^0.5.2",
+    "marked": "^0.6.0",
     "minimist": "^1.2.0",
     "node-sass": "^4.11.0",
     "nunjucks": "^3.1.6",

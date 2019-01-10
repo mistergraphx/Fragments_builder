@@ -58,7 +58,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   var loader = new nunjucks.FileSystemLoader(config.nunjuks.searchPaths,{
     noCache : true
   });
-  // Rnvironnement Configurer les options depuis la config
+  // Environnement Configurer les options depuis la config
   // modifiable/extensible depuis le projet
   var njk = new nunjucks.Environment(loader,config.nunjuks.options);
   // Filters
@@ -67,12 +67,6 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
   njk.addFilter('slug', function(str,options) {
       return slug(str);
   });
-  // add nunjucks to requires so filters can be
-// added and the same instance will be used inside the render method
-// consolidate.requires.nunjucks = nunjucks.configure();
-// consolidate.requires.nunjucks.addFilter('slug', function(str,options) {
-//     return slug(str);
-// });
 
   let datasPath = config.SrcPath + _DATAS_DIR;
 
@@ -86,32 +80,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
           console.log('No file found for :' + filePath);
   }
 
-    var summaryJSON = {} ;
-    // @unused
-    function buildIndex(baseDir, objectType){
-        var counter = 0 ;
-        files = fsRecurs(baseDir);
-        files.map(function(url,ind,arr){
-            //current = fs.readFileSync(pageDir + url, 'utf-8')
-            file = matter.read(baseDir + url);
-            //url =  path.dirname(file.path).replace(config.pageDir, '') + path.basename(file.path,'.md') + '.html';
-            // slice enlève le dernier / présent dans
-            url = path.dirname(file.path).replace(baseDir.slice(0,-1), '') + '/'+ path.basename(file.path,'.md') + '.html';
-            //console.log(url);
-           summaryJSON[objectType + '-' + counter] = {
-                'path': file.path,
-                'url': url,
-                'title': file.data.title,
-                'description': file.data.description
-            };
-
-            counter++;
-        });
-
-        return  summaryJSON;
-    }
-
-    return function (){
+  return function (){
         // Parse pages/**/*.md files recursively
         gulp.src(config.SrcPath + _PAGES_DIR + '**/*.md')
             // Error Handler
@@ -122,8 +91,8 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 // Env gulp Data Object
                 var env = {};
 
-                if (file.env) {
-                  data = _.merge({},file.env, data);
+                if (file.data) {
+                  env = _.merge({},file.data, env);
                 }
                 // Y'a t'il un fichier json de datas supplémentaires a fournir
                 if(fs.existsSync(datasPath + path.basename(file.path,'.md') + '.json')) {
@@ -158,11 +127,10 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
                 // Options/extensions Marked
                 marked(rendered, config.markedConfig, function(err,res){
                     if(err){
-                      return console.log('Marked error in :' + file.path);
+                      return new PluginError('Marked', 'Marked error in :' + file.path);
                     }
                     return env.contents = res;
                 });
-
                 return env;
             }))
             // Navigation construct
