@@ -83,7 +83,7 @@ module.exports = {
       templateExt: '.njk',
       options: {
         autoescape:false,
-        throwOnUndefined: true
+        throwOnUndefined: false
       }
   },
   bundleConfig:{
