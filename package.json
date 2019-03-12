@@ -33,13 +33,14 @@
     "through2-spy": "^2.0.0"
   },
   "dependencies": {
-    "autoprefixer": "^9.4.4",
+    "autoprefixer": "^9.4.8",
     "browser-sync": "^2.26.3",
     "clean-css": "^4.2.1",
     "css-mqpacker": "^7.0.0",
+    "doiuse": "^4.2.0",
     "font-blast": "^0.7.0",
     "fs-readdir-recursive": "^1.1.0",
-    "gray-matter": "^4.0.1",
+    "gray-matter": "^4.0.2",
     "gulp": "^3.9.1",
     "gulp-bundle-assets": "latest",
     "gulp-clean-css": "^3.10.0",
@@ -48,6 +49,7 @@
     "gulp-nav": "^0.3.0",
     "gulp-plumber": "^1.2.0",
     "gulp-postcss": "^8.0.0",
+    "gulp-purge-sourcemaps": "^1.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.3",
@@ -57,9 +59,9 @@
     "marked": "^0.6.0",
     "minimist": "^1.2.0",
     "node-sass": "^4.11.0",
-    "nunjucks": "^3.1.6",
+    "nunjucks": "^3.1.7",
     "plugin-error": "^1.0.1",
-    "slug": "^0.9.3",
+    "slug": "^1.0.0",
     "stylelint-config-standard": "^18.2.0",
     "through2": "^3.0.0"
   }
