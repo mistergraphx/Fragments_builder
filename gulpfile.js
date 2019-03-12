@@ -218,11 +218,6 @@ browserSync.init({
 });
 */
 gulp.task('browser-sync', function() {
-    browserSync.init({
-        server: {
-            baseDir: config.BuildPath
-        }
-    });
 });
 
 // ---------------------------------------------------------------------------
@@ -234,29 +229,25 @@ gulp.task('browser-sync', function() {
  *
  *
  */
-gulp.task('static-site', ['styles', 'prototype', 'bundle-assets'], function () {
-    browserSync.init({
-        server: config.BuildPath
-    });
-    // console.log('SCSS PASS' + config.sassPath);
-    gulp.watch(config.sassPath+"/**/*.scss", ['styles']);
-    gulp.watch(config.SrcPath+"templates/*.njk", ['prototype','bundle-assets']);
-    gulp.watch(config.SrcPath+"pages/**/*.md", ['prototype','bundle-assets']);
+gulp.task('static-site', ['styles', 'prototype', 'bundle-assets','browser-sync'], function () {
+    gulp.watch(config.sassPath+"**/*.scss", ['styles','assets2build']);
+    gulp.watch(config.SrcPath+"templates/*.njk", ['prototype']);
+    gulp.watch(config.SrcPath+"pages/**/*.md", ['prototype']);
     gulp.watch(config.SrcPath+"datas/**/*.json", ['prototype']);
-    //gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
+    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
     // gulp.watch(config.SrcPath+config.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
-    //gulp.watch(config.SrcPath+"**/*.html", ['html2build']);
-    gulp.watch(config.SrcPath+"**/*.{css,js}", ['bundle-assets']);
+    gulp.watch(config.BiuldPath + "**/*.html", ['browserSync.reload']);
+    gulp.watch(config.SrcPath+"**/*.{css,js}", ['assets2build']);
 });
 
 // ## Sass-watch
 gulp.task('sass-watch', ['styles'], function () {
-    gulp.watch(config.sassPath+"/**/*.scss", ['styles']);
+    gulp.watch(config.sassPath+"**/*.scss", ['styles']);
 });
 
 // ## Default Task
 gulp.task('default', ['styles','bundle-assets'], function () {
     gulp.watch(config.sassPath+'**/*.scss', ['styles']);
-    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif,svg}", ['bundle-assets']);
-    gulp.watch(config.SrcPath+"assets/**/*.{css,js}", ['bundle-assets']);
+    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif,svg}", ['images2build']);
+    gulp.watch(config.SrcPath + "assets/**/*.{css,js}", ['bundle-assets']);
 });
