@@ -20,8 +20,6 @@ la génération de png ne fonctionne pas utilisant batik-rasterizer (mcosx 10.11
 @see https://github.com/eugene1g/font-blast-examples/blob/master/popular-fonts.js
 
 */
-
-
 var svgFont2svgFiles = function(config) {
 
   let fontBlast = require('font-blast'),

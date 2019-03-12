@@ -20,7 +20,7 @@ module.exports = function(gulp, plugins, config, browserSync, onError) {
             .pipe(plugins.bundleAssets())
             .pipe(plugins.bundleAssets.results({
                 dest: config.SrcPath+'datas/', // destination of bundle.result.json
-                pathPrefix: config.bundleConfig.pathPrefix
+                pathPrefix: config.bundleConfig.pathPrefix // Prefix assets paths
             }))
             .pipe(plugins.cached('bundle-assets'))
             .pipe(gulp.dest(config.bundleConfig.dest))
