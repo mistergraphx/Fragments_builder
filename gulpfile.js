@@ -140,6 +140,44 @@ function getTask(task) {
 // Pre-pross/ Post : autoprefixing, …
 gulp.task('styles', getTask('styles'));
 
+// Linting
+// https://github.com/anandthakker/doiuse
+var postcss = require('gulp-postcss');
+var doiuse = require('doiuse');
+// Remove mapSource from stream
+// ?? ne fait rien, le lien vers la source map n'est pa effacé du stream
+var purgeSourcemaps = require('gulp-purge-sourcemaps');
+
+gulp.task('style-lint',function(){
+  var report = [];
+  gulp.src(_SRC_PATH + 'assets/css/*.css', { cwd: process.cwd() })
+      .pipe(purgeSourcemaps())
+      // PostCSS
+      .pipe(postcss([
+        require("doiuse")({
+          browsers:['ie >= 11'],
+          ignore: ['rem','flexbox'], // an optional array of features to ignore
+          ignoreFiles: ['/main.css.map'], // an optional array of file globs to match against original source file path, to ignore
+          onFeatureUsage: function(usageInfo) {
+              report.push(usageInfo.message+'\n');
+          }
+        })
+      ]))
+      .pipe(gulp.dest(config.BuildPath).on('end', function(){
+          console.log(report);
+          const fs = require('fs');
+          fs.writeFile(_SRC_PATH+ _PROJECT+'-style-lint.txt', report, function(err) {
+              if(err) {
+                  return console.log(err);
+              }
+              console.log("The file was saved!");
+          });
+      }));
+
+});
+
+// doiuse
+
 // Svg Tool
 gulp.task('build-sprite', getTask('svgSprite'));
 
@@ -162,25 +200,24 @@ gulp.task('image-responsives', getTask('img_responsives')); // Generate images v
 gulp.task('image-galleries', getTask('img_galleries')); // Generate thumbs
 
 // Utils
-
-gulp.task('html2build', function() {
-    gulp.src(_SRC_PATH + '**/*.html')
+gulp.task('font2build', function() {
+    gulp.src(_SRC_PATH + 'assets/fonts/**/*.{woff,woff2}')
         .pipe($.plumber({
                 errorHandler: onError
         }))
-        .pipe($.cached('html'))
+        .pipe($.cached('fonts'))
         .pipe(gulp.dest(config.BuildPath))
         .pipe(browserSync.stream())
         .pipe($.notify({
-            title: "Html Updated",
-            message: "Html files are updated in Build Folder"
+            title: "Font files Updated",
+            message: "Fon files are updated in Build Folder"
         }));
 });
 
 gulp.task('images2build', function() {
-    gulp.src(SrcPath + config.ImagePath + '**/*.{jpg,jpeg,png,gif}')
+    gulp.src(config.SrcPath + config.ImagePath + '**/*.{jpg,jpeg,png,gif,svg}')
         .pipe($.plumber({
-                errorHandler: onError
+            errorHandler: onError
         }))
         .pipe($.cached('images'))
         .pipe(gulp.dest(config.BuildPath + config.ImagePath))
@@ -193,9 +230,9 @@ gulp.task('images2build', function() {
 
 
 gulp.task('assets2build', function() {
-    gulp.src(SrcPath+'**/*.{css,js}')
+    gulp.src(config.SrcPath + '**/*.{css,js}')
         .pipe($.plumber({
-                errorHandler: onError
+            errorHandler: onError
         }))
         .pipe($.cached('assets'))
         .pipe(gulp.dest(config.BuildPath))
@@ -208,7 +245,8 @@ gulp.task('assets2build', function() {
 
 
 
-// browser-sync task for starting the server.
+// browser-sync starting the server.
+// https://www.browsersync.io/docs/options
 /*
 browserSync.init({
     open: 'external',
@@ -218,6 +256,11 @@ browserSync.init({
 });
 */
 gulp.task('browser-sync', function() {
+    browserSync.init({
+      server: {
+        baseDir: _BUILD_PATH
+      }
+    });
 });
 
 // ---------------------------------------------------------------------------
@@ -230,14 +273,14 @@ gulp.task('browser-sync', function() {
  *
  */
 gulp.task('static-site', ['styles', 'prototype', 'bundle-assets','browser-sync'], function () {
-    gulp.watch(config.sassPath+"**/*.scss", ['styles','assets2build']);
+    gulp.watch(config.sassPath+"**/*.scss", ['styles']);
     gulp.watch(config.SrcPath+"templates/*.njk", ['prototype']);
     gulp.watch(config.SrcPath+"pages/**/*.md", ['prototype']);
     gulp.watch(config.SrcPath+"datas/**/*.json", ['prototype']);
     gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif}", ['images2build']);
     // gulp.watch(config.SrcPath+config.galleries.folder+"**/*.{jpg,jpeg,png,gif}", ['image-galleries']);
-    gulp.watch(config.BiuldPath + "**/*.html", ['browserSync.reload']);
-    gulp.watch(config.SrcPath+"**/*.{css,js}", ['assets2build']);
+    gulp.watch(config.BuildPath + "**/*.html").on('change', browserSync.reload);
+    gulp.watch(config.SrcPath+"assets/**/*.{css,js}", ['bundle-assets']);
 });
 
 // ## Sass-watch
@@ -247,7 +290,7 @@ gulp.task('sass-watch', ['styles'], function () {
 
 // ## Default Task
 gulp.task('default', ['styles','bundle-assets'], function () {
-    gulp.watch(config.sassPath+'**/*.scss', ['styles']);
-    gulp.watch(config.SrcPath+config.ImagePath+"**/*.{jpg,jpeg,png,gif,svg}", ['images2build']);
+    gulp.watch(config.sassPath + '**/*.scss', ['styles']);
+    gulp.watch(config.SrcPath + config.ImagePath + "**/*.{jpg,jpeg,png,gif,svg}", ['images2build']);
     gulp.watch(config.SrcPath + "assets/**/*.{css,js}", ['bundle-assets']);
 });

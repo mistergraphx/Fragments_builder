@@ -20,8 +20,18 @@ module.exports = {
       browsers: ['last 2 versions'],
       cascade: false
   },
+  // unused
   mqpacker: {
     sort: true
+  },
+  // En test
+  doiuse: {
+    browsers:['ie >= 11'],
+    ignore: ['rem'], // an optional array of features to ignore
+    ignoreFiles: ['**/normalize.css'], // an optional array of file globs to match against original source file path, to ignore
+    onFeatureUsage: function(usageInfo) {
+      console.log(usageInfo.message);
+    }
   },
   sourcemaps:{
       path: './',
