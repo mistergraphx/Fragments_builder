@@ -46,6 +46,19 @@ module.exports = {
   svgSprite: {
     sourcesPath: _SRC_PATH + 'assets/svg/',
     spriteDest: _BASE_PATH ,
+    svgoPlugins: {
+        plugins: [ // https://github.com/svg/svgo#what-it-can-do
+            {
+              removeViewBox: false
+            },
+            {
+              removeStyleElement: true
+            },
+            {
+              cleanupIDs: false
+            }
+        ]
+    },
     options: { // https://www.npmjs.com/package/gulp-svg-sprites#options
       mode: "symbols", // sprite|defs|symbols
       common: "icon",
