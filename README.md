@@ -1,3 +1,5 @@
+Ce projet à été déplacé https://gitlab.com/mister-graphx/fragments/Builder
+
 # Fragments Builder
 
 Outil de prototypage , pre-processing, build system avec Node.js et gulp
